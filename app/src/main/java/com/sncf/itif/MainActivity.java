@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //showMessage(tab.getPosition(),"");
+//                showMessage(tab.getPosition(),"");
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
