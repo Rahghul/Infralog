@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Infralog Travaux</string>
+    <string name="secteur_name">Secteurs</string>
+    <string name="plan_name">Plans</string>
+    <string name="detail_name">Plan en détail</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="dns">http://itif.cloudapp.net/</string>
+    <string name="localhost_genymotion">http://10.0.3.2:8080/</string>
+
+    <string name="url_gare">sncf/rest/gare/</string>
+    <string name="url_gare_one_query_id">sncf/rest/gare/one?g_id=</string>
+
+    <string name="url_secteur">sncf/rest/secteur/</string>
+
+    <string name="url_plan_IDF">sncf/rest/planIDF/one?name=CarteIDF</string>
+
+    <string name="url_plan_detail_by_id">sncf/rest/carte/one?p_id=</string>
+
+    <string name="url_navitia_half_1">https://api.navitia.io/v1/coverage/fr-idf/coords/</string>
+    <string name="url_navitia_half_2">/physical_modes/physical_mode:RapidTransit/stop_points?distance=500</string>
+</resources>

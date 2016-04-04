@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_with_boarder"
+        android:padding="25dp"
+        android:layout_marginTop="20dp">
+
+        <AutoCompleteTextView
+            android:background="@drawable/back_with_boarder"
+            android:id="@+id/txt_search_gare"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:completionThreshold="2"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:enabled="true"
+            android:hint="Rechercher une gare ?"
+            android:inputType="textCapWords"
+            android:nestedScrollingEnabled="true"
+            android:paddingStart="5dp"
+            android:singleLine="true"
+            android:textColor="@color/color3" />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_search_gare"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view" />
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_localiser"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:clickable="true"
+            android:drawingCacheQuality="high"
+            android:src="@drawable/btn_localiser"
+            android:layout_below="@+id/view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Ma position"
+            android:textSize="17dp"
+            android:textColor="@color/color1"
+            android:id="@+id/tv_ma_position"
+            android:layout_alignBottom="@+id/btn_localiser"
+            android:layout_toEndOf="@+id/btn_localiser"
+            android:layout_marginStart="30dp" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
