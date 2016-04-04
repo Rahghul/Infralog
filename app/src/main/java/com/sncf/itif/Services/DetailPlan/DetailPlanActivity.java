@@ -28,8 +28,8 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+       //         WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.details_activity);
 
         dialog = new ProgressDialog(this);
