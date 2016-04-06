@@ -54,11 +54,11 @@ public class Secteur {
         this.version = version;
     }
 
-    public String getPlan() {
+    public String getImage() {
         return plan;
     }
 
-    public void setPlan(String plan) {
+    public void setImage(String plan) {
         this.plan = plan;
     }
 */

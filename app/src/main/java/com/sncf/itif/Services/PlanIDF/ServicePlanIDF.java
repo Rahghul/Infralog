@@ -27,7 +27,7 @@ public class ServicePlanIDF {
     }
 
     public void enquiry(final String endpoint){
-        new AsyncTask<String, Void, PlanIDF>() {
+        new AsyncTask<String, Void, DiversImage>() {
 
             @Override
             protected void onPreExecute() {
@@ -39,14 +39,14 @@ public class ServicePlanIDF {
 
 
             @Override
-            protected PlanIDF doInBackground(String... params) {
+            protected DiversImage doInBackground(String... params) {
                 try{
                     switch (service){
                         case "getPlanIDF" :
                             return getPlanFromSecteur(params[0]);
 
                         default:
-                            throw (new Exception("Unknown Service : PlanIDF"));
+                            throw (new Exception("Unknown Service : DiversImage"));
                     }
                 }catch (Exception e){
                     error = e;
@@ -55,7 +55,7 @@ public class ServicePlanIDF {
             }
 
             @Override
-            protected void onPostExecute(PlanIDF plan) {
+            protected void onPostExecute(DiversImage plan) {
                 if (dialog.isShowing()) {
                     dialog.dismiss();
                 }
@@ -71,15 +71,15 @@ public class ServicePlanIDF {
                 }
             }
 
-            public PlanIDF getPlanFromSecteur(String endpoint) throws JSONException {
+            public DiversImage getPlanFromSecteur(String endpoint) throws JSONException {
                 String s = WebServiceUtil.requestWebServiceGET(endpoint);
                 if(s == null){
                     return null;
                 }
-                PlanIDF planIDF;
+                DiversImage planIDF;
 
                 JSONObject p = new JSONObject(s);
-                planIDF = new PlanIDF(p.getString("name"), p.getString("plan"));
+                planIDF = new DiversImage(p.getString("name"), p.getString("plan"));
                 return planIDF;
 
             }

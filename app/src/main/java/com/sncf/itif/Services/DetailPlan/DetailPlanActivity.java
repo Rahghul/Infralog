@@ -28,8 +28,8 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-       //         WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.details_activity);
 
         dialog = new ProgressDialog(this);
@@ -37,7 +37,7 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
         mAttacher = new PhotoViewAttacher(imgPlan);
         //mAttacher.update();
 
-        //PlanIDF planIDF = getIntent().getExtras().getParcelable("com.sncf.myapplication2.Services.PlanIDF");
+        //DiversImage planIDF = getIntent().getExtras().getParcelable("com.sncf.myapplication2.Services.DiversImage");
         //Plan plan = getIntent().getExtras().getParcelable("com.sncf.myapplication2.Services.Plan");
         //byte[] bytes = getIntent().getByteArrayExtra("BMP");
         //Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -45,9 +45,9 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
         //Toast.makeText(this, planIDF.toString(), Toast.LENGTH_LONG).show();
         /*String image = null;
         if(planIDF != null)
-            image = planIDF.getPlan();
+            image = planIDF.getImage();
         else
-            image= plan.getPlan();
+            image= plan.getImage();
         */
 
                 /*String version = getIntent().getStringExtra("version");

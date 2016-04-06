@@ -6,14 +6,14 @@ import android.os.Parcelable;
 /**
  * Created by Rahghul on 01/04/2016.
  */
-public class PlanIDF implements Parcelable {
+public class DiversImage implements Parcelable {
 
     private String name;
-    private String plan;
+    private String image;
 
-    public PlanIDF(String name, String plan) {
+    public DiversImage(String name, String plan) {
         this.name = name;
-        this.plan = plan;
+        this.image = plan;
     }
 
     /**
@@ -23,7 +23,7 @@ public class PlanIDF implements Parcelable {
      *
      * @param in a parcel from which to read this object
      */
-    public PlanIDF(Parcel in) {
+    public DiversImage(Parcel in) {
         readFromParcel(in);
     }
 
@@ -35,21 +35,14 @@ public class PlanIDF implements Parcelable {
         this.name = name;
     }
 
-    public String getPlan() {
-        return plan;
+    public String getImage() {
+        return image;
     }
 
-    public void setPlan(String plan) {
-        this.plan = plan;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "PlanIDF{" +
-                "name='" + name + '\'' +
-                ", plan='" + plan + '\'' +
-                '}';
-    }
 
     @Override
     public int describeContents() {
@@ -59,7 +52,7 @@ public class PlanIDF implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(plan);
+        dest.writeString(image);
     }
 
     /**
@@ -75,7 +68,7 @@ public class PlanIDF implements Parcelable {
         // field in the order that it was
         // written to the parcel
         name = in.readString();
-        plan = in.readString();
+        image = in.readString();
     }
 
     /**
@@ -93,12 +86,12 @@ public class PlanIDF implements Parcelable {
      */
     public static final Parcelable.Creator CREATOR =
             new Parcelable.Creator() {
-                public PlanIDF createFromParcel(Parcel in) {
-                    return new PlanIDF(in);
+                public DiversImage createFromParcel(Parcel in) {
+                    return new DiversImage(in);
                 }
 
-                public PlanIDF[] newArray(int size) {
-                    return new PlanIDF[size];
+                public DiversImage[] newArray(int size) {
+                    return new DiversImage[size];
                 }
             };
 }

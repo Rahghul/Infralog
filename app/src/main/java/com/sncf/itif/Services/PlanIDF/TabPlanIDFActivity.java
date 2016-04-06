@@ -24,7 +24,7 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
     ServicePlanIDF servicePlanIDF;
     ProgressDialog dialog;
 
-    PlanIDF planIDFReceived;
+    DiversImage planIDFReceived;
     PhotoViewAttacher mAttacher;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,10 +35,10 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
             @Override
             public void onClick(View v) {
                 //Intent intent = new Intent(getContext(), DetailPlanActivity.class);
-                //intent.putExtra("image", planIDFReceived.getPlan());
-                //intent.putExtra("com.sncf.myapplication2.Services.PlanIDF", planIDFReceived);
+                //intent.putExtra("image", planIDFReceived.getImage());
+                //intent.putExtra("com.sncf.myapplication2.Services.DiversImage", planIDFReceived);
                 //ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                //StringToBitMap(planIDFReceived.getPlan()).compress(Bitmap.CompressFormat.PNG, 100, stream);
+                //StringToBitMap(planIDFReceived.getImage()).compress(Bitmap.CompressFormat.PNG, 100, stream);
                 //byte[] bytes = stream.toByteArray();
                 //intent.putExtra("BMP",bytes);
                 //startActivity(intent);
@@ -56,16 +56,16 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
     public void callServicePlanIDF() {
         servicePlanIDF = new ServicePlanIDF(this, dialog, "getPlanIDF");
         servicePlanIDF.enquiry(getActivity().getResources().getString(R.string.dns)
-                + getActivity().getResources().getString(R.string.url_plan_IDF));
+                + getActivity().getResources().getString(R.string.url_divers_img_IDF));
     }
 
     @Override
     public void serviceSuccess(Object object, int id_srv) {
         if (id_srv == 4) {
             if (object != null) {
-                planIDFReceived = (PlanIDF)object;
-                //Log.d(planIDFReceived.getName(), planIDFReceived.getPlan());
-                image_carte.setImageBitmap(StringToBitMap(planIDFReceived.getPlan()));
+                planIDFReceived = (DiversImage)object;
+                //Log.d(planIDFReceived.getName(), planIDFReceived.getImage());
+                image_carte.setImageBitmap(StringToBitMap(planIDFReceived.getImage()));
             } else
                 Toast.makeText(getContext(), "La carte IDF indisponible momentanément.", Toast.LENGTH_LONG).show();
 

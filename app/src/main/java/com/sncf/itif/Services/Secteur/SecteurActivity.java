@@ -94,7 +94,7 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
                 secteursList.addAll((List<Secteur>) object);
                 //showMessage("Show Secteur List New", secteursList.toString());
                 //callServicePlanFromSecteur(secteursList.get(0).getId());
-                //imgView.setImageBitmap(StringToBitMap(secteursList.get(0).getPlan()));
+                //imgView.setImageBitmap(StringToBitMap(secteursList.get(0).getImage()));
                 secteurAdapter.notifyDataSetChanged();
 
 

@@ -45,8 +45,8 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-      //          WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_display_plan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,7 +92,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
                 //showMessage("Plan List", planList.toString());
                 gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, planList);
                 gridView.setAdapter(gridAdapter);
-                //imgView.setImageBitmap(StringToBitMap(planList.get(1).getPlan()));
+                //imgView.setImageBitmap(StringToBitMap(planList.get(1).getImage()));
 
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -105,7 +105,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
                         startActivity(intent);
 
                                                 /*intent.putExtra("version", item.getVersion());
-                        intent.putExtra("image", item.getPlan());*/
+                        intent.putExtra("image", item.getImage());*/
                         //intent.putExtra("com.sncf.myapplication2.Services.Plan", item);
 
                         //Start details activity
