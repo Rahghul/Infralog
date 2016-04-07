@@ -18,6 +18,8 @@
 
     <string name="url_plan_detail_by_id">sncf/rest/carte/</string>
 
+    <string name="url_info">sncf/rest/info</string>
+
     <string name="url_navitia_half_1">https://api.navitia.io/v1/coverage/fr-idf/coords/</string>
     <string name="url_navitia_half_2">/physical_modes/physical_mode:RapidTransit/stop_points?distance=500</string>
 </resources>

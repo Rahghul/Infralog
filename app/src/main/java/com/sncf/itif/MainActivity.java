@@ -1,5 +1,6 @@
 package com.sncf.itif;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
@@ -8,21 +9,31 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 
 public class MainActivity extends AppCompatActivity{
 
+    PagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // avoid to open keyboard automatically when activity starts.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Gares").setIcon(R.drawable.icon_gare_tab));
@@ -53,16 +64,34 @@ public class MainActivity extends AppCompatActivity{
         toolbar.setBackground(p);
 
         final ViewPager viewPager = (HackyViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
+        adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Fragment fragment = ((PagerAdapter) viewPager.getAdapter()).getFragment(position);
+                if((position == 0 || position == 2) && fragment != null)
+                    fragment.onResume();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                showMessage(tab.getPosition(),"");
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -87,6 +116,12 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onResume() {
+        if (!(adapter == null)) {
+
+            adapter.notifyDataSetChanged();
+
+
+        }
         super.onResume();
     }
 
@@ -114,4 +149,5 @@ public class MainActivity extends AppCompatActivity{
         builder.setMessage(message);
         builder.show();
     }
+
 }

@@ -52,4 +52,6 @@ public class HackyViewPager extends ViewPager {
         return isLocked;
     }
 
+
+
 }

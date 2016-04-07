@@ -48,10 +48,13 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         dialog = new ProgressDialog(getActivity());
         callServicePlanIDF();
         mAttacher = new PhotoViewAttacher(image_carte);
+
         //§!!!!!!!!java.lang.IllegalArgumentException: pointerIndex out of range handle this exception
 
         return view;
     }
+
+
 
     public void callServicePlanIDF() {
         servicePlanIDF = new ServicePlanIDF(this, dialog, "getPlanIDF");
@@ -96,5 +99,4 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         builder.setMessage(message);
         builder.show();
     }
-
 }

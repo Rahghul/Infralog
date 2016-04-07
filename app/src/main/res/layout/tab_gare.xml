@@ -19,7 +19,6 @@
             android:layout_alignParentTop="true"
             android:completionThreshold="2"
             android:drawableLeft="@android:drawable/ic_menu_search"
-            android:enabled="true"
             android:hint="Rechercher une gare ?"
             android:inputType="textCapWords"
             android:nestedScrollingEnabled="true"
