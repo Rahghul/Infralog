@@ -7,7 +7,10 @@ import android.view.MotionEvent;
 
 /**
  * Created by Rahghul on 04/04/2016.
+ * //§!!!!!!!!java.lang.IllegalArgumentException: pointerIndex out of range handle this exception
  */
+
+
 public class HackyViewPager extends ViewPager {
 
     private boolean isLocked;

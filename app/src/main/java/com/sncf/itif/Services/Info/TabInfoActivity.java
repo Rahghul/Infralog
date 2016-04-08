@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sncf.itif.R;
+import com.sncf.itif.Services.Gare.TabGareActivity;
 import com.sncf.itif.Services.ServiceCallBack;
 
 import java.util.ArrayList;
@@ -51,12 +52,20 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     @Override
     public void serviceSuccess(Object object, int id_srv) {
         infosList.clear();
-        if (id_srv == 1) {
+        if (id_srv == 3) {
             infosList.addAll((List<Info>)object);
 
             //showMessage("Infos List", infosList.toString());
             Collections.reverse(infosList);
             infoAdapter.notifyDataSetChanged();
+
+           /* //Put the value
+            TabGareActivity ldf = new TabGareActivity ();
+            Bundle args = new Bundle();
+            args.putString("YourKey", "YourValue");
+            ldf.setArguments(args);
+            //Inflate the fragment
+            getFragmentManager().beginTransaction().add(R.id.container, ldf).commit();*/
         }
         else
             Toast.makeText(getContext(), "La liste des infos est vide.", Toast.LENGTH_LONG).show();

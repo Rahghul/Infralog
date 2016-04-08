@@ -7,16 +7,17 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:background="@drawable/back_with_boarder"
-        android:padding="25dp"
-        android:layout_marginTop="20dp">
+        android:padding="15dp"
+        android:id="@+id/relativeLayout">
 
         <AutoCompleteTextView
-            android:background="@drawable/back_with_boarder"
             android:id="@+id/txt_search_gare"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
+            android:background="@drawable/back_with_boarder"
             android:completionThreshold="2"
             android:drawableLeft="@android:drawable/ic_menu_search"
             android:hint="Rechercher une gare ?"
@@ -27,38 +28,70 @@
             android:textColor="@color/color3" />
 
         <View
-            android:layout_marginTop="10dp"
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/txt_search_gare"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/view" />
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
 
         <ImageView
-            android:layout_marginTop="10dp"
             android:id="@+id/btn_localiser"
             android:layout_width="55dp"
             android:layout_height="55dp"
+            android:layout_below="@+id/view"
+            android:layout_marginTop="10dp"
             android:clickable="true"
             android:drawingCacheQuality="high"
-            android:src="@drawable/btn_localiser"
-            android:layout_below="@+id/view" />
+            android:src="@drawable/btn_localiser" />
+
+        <TextView
+            android:id="@+id/tv_ma_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_localiser"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/btn_localiser"
+            android:text="Ma position"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/color1"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_with_boarder"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/relativeLayout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Ma position"
-            android:textSize="17dp"
+            android:text="Les dernières mises à jours :"
             android:textColor="@color/color1"
-            android:id="@+id/tv_ma_position"
-            android:layout_alignBottom="@+id/btn_localiser"
-            android:layout_toEndOf="@+id/btn_localiser"
-            android:layout_marginStart="30dp" />
-
+            android:textSize="17dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/textView" />
+        <ListView
+            android:background="@drawable/back_with_boarder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/infoInGareListView"
+            android:divider="@color/color1"
+            android:dividerHeight="2dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:layout_below="@+id/textView" />
     </RelativeLayout>
-
-
 
 </RelativeLayout>

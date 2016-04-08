@@ -18,9 +18,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sncf.itif.Services.Info.CustomAdapterInfo;
+import com.sncf.itif.Services.Info.Info;
+import com.sncf.itif.Services.Info.ServiceInfo;
 import com.sncf.itif.Services.Localisation.GPSTracker;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
@@ -28,6 +32,7 @@ import com.sncf.itif.Services.Localisation.ServiceLocalisation;
 import com.sncf.itif.Services.Secteur.SecteurActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TabGareActivity extends Fragment implements ServiceCallBack {
@@ -50,6 +55,11 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     Double longitude;
 
     ServiceLocalisation serviceLocalisation;
+
+    ListView infoListView;
+    CustomAdapterInfoHome infoAdapterHome = null;
+    List<Info> infosList = new ArrayList<>();
+    ServiceInfo serviceInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,10 +116,10 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                     longitude = gps.getLongitude();
                     Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
                     if (latitude != 0.0 && longitude != 0.0)
-                        if(garesList.size()<10)
+                        if (garesList.size() < 10)
                             callServiceGareGet();
 
-                        callServiceNearestGare();
+                    callServiceNearestGare();
                 } else {
                     gps.showSettingsAlert(getContext());
                 }
@@ -128,9 +138,9 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                     Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
                     if (latitude != 0.0 && longitude != 0.0)
                         //callServiceGareGet();
-                        if(garesList.size()<10)
+                        if (garesList.size() < 10)
                             callServiceGareGet();
-                        callServiceNearestGare();
+                    callServiceNearestGare();
                     // \n is for new line
                     //Toast.makeText(getContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                     //gps.showSettingsAlert();
@@ -144,7 +154,13 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         });
 
 
+        infoListView = (ListView) view.findViewById(R.id.infoInGareListView);
+        Collections.reverse(infosList);
+        infoAdapterHome = new CustomAdapterInfoHome(getContext(), infosList);
+        infoListView.setAdapter(infoAdapterHome);
+
         callServiceGareGet();
+        callServiceInfoGet();
 
         return view;
     }
@@ -152,6 +168,8 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     @Override
     public void onResume() {
         callServiceGareGet();
+        callServiceInfoGet();
+
         super.onResume();
     }
 
@@ -183,13 +201,13 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                 String regex4 = "\\bSS\\b";
 
                 String nearestGare_Modif = nearestGare.trim().toUpperCase()
-                        .replaceAll(regex, "").replaceAll(regex2, " ").replaceAll(regex3,"SAINT").replaceAll(regex4,"SOUS");
+                        .replaceAll(regex, "").replaceAll(regex2, " ").replaceAll(regex3, "SAINT").replaceAll(regex4, "SOUS");
                 Toast.makeText(getContext(), "Gare trouvée: *" + nearestGare_Modif + "*", Toast.LENGTH_SHORT).show();
 
                 for (Gare g : garesList) {
                     String g_name = g.getName().toUpperCase().trim().replaceAll(regex, "").replaceAll(regex2, " ");
                     if (nearestGare_Modif.equals(g_name)) {
-                    //if (nearestGare_Modif.contains(g_name) || nearestGare_Modif.equals(g_name) ) {
+                        //if (nearestGare_Modif.contains(g_name) || nearestGare_Modif.equals(g_name) ) {
                         showPositionAlert(getContext(), g);
                     }
                 }
@@ -197,6 +215,18 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
             } else
                 Toast.makeText(getContext(), "Aucune gare SNCF détectée aux alentours de 500m.", Toast.LENGTH_LONG).show();
 
+        }
+
+        if (id_srv == 3) {
+            infosList.clear();
+            if (object != null) {
+                infosList.addAll((List<Info>) object);
+
+                //showMessage("Infos List", infosList.toString());
+                Collections.reverse(infosList);
+                infoAdapterHome.notifyDataSetChanged();
+            } else
+                Toast.makeText(getContext(), "La liste des infos est vide.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -216,6 +246,12 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         String url_half_1 = getActivity().getResources().getString(R.string.url_navitia_half_1);
         String url_half_2 = getActivity().getResources().getString(R.string.url_navitia_half_2);
         serviceLocalisation.enquiry(url_half_1 + longitude + ";" + latitude + url_half_2);
+    }
+
+    public void callServiceInfoGet() {
+        serviceInfo = new ServiceInfo(this, dialog, "getAllInfo");
+        String urlGetInfo = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_info) ;
+        serviceInfo.enquiry(urlGetInfo);
     }
 
     public void showMessage(String title, String message) {
@@ -254,8 +290,6 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         // Showing Alert Message
         alertDialog.show();
     }
-
-
 
 
 }

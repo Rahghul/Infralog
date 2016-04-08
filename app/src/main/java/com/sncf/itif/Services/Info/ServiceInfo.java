@@ -69,7 +69,7 @@ public class ServiceInfo {
                         callBack.serviceFailure(error);
                         return;
                     }
-                    callBack.serviceSuccess(infos, 1);
+                    callBack.serviceSuccess(infos, 3);
                 }
                 catch (Exception e) {
                     error = e;

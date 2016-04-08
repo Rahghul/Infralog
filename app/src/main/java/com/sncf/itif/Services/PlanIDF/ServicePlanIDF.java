@@ -34,7 +34,7 @@ public class ServicePlanIDF {
                 // TODO i18n
                 //   dialog = new ProgressDialog(c);
                 dialog.setMessage("Chargement...");
-                dialog.show();
+                //dialog.show();
             }
 
 

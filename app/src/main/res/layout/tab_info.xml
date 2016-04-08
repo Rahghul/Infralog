@@ -7,7 +7,11 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/infoListView"/>
+        android:id="@+id/infoListView"
+        android:divider="@color/color1"
+        android:dividerHeight="2dp"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"/>
 
 
 

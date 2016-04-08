@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPageSelected(int position) {
                 Fragment fragment = ((PagerAdapter) viewPager.getAdapter()).getFragment(position);
-                if((position == 0 || position == 2) && fragment != null)
+                if( fragment != null)
                     fragment.onResume();
             }
 
@@ -111,18 +111,6 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-    }
-
-
-    @Override
-    protected void onResume() {
-        if (!(adapter == null)) {
-
-            adapter.notifyDataSetChanged();
-
-
-        }
-        super.onResume();
     }
 
     @Override

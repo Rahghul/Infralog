@@ -2,6 +2,7 @@ package com.sncf.itif.Services.PlanIDF;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -31,29 +32,20 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         View view = inflater.inflate(R.layout.tab_plan_idf, container, false);
 
         image_carte = (ImageView) view.findViewById(R.id.image_idf);
-       /* image_carte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent(getContext(), DetailPlanActivity.class);
-                //intent.putExtra("image", planIDFReceived.getImage());
-                //intent.putExtra("com.sncf.myapplication2.Services.DiversImage", planIDFReceived);
-                //ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                //StringToBitMap(planIDFReceived.getImage()).compress(Bitmap.CompressFormat.PNG, 100, stream);
-                //byte[] bytes = stream.toByteArray();
-                //intent.putExtra("BMP",bytes);
-                //startActivity(intent);
-                //!!!!!!!!!!!ATTENTION a resoudre le pb de transfert image ////////
-            }
-        });*/
+
         dialog = new ProgressDialog(getActivity());
         callServicePlanIDF();
         mAttacher = new PhotoViewAttacher(image_carte);
 
-        //§!!!!!!!!java.lang.IllegalArgumentException: pointerIndex out of range handle this exception
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        //callServicePlanIDF();
+        super.onResume();
+    }
 
 
     public void callServicePlanIDF() {

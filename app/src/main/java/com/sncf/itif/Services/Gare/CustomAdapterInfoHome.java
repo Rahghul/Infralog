@@ -1,4 +1,4 @@
-package com.sncf.itif.Services.Info;
+package com.sncf.itif.Services.Gare;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,15 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sncf.itif.R;
+import com.sncf.itif.Services.Info.Info;
 
 
-public class CustomAdapterInfo extends BaseAdapter {
+public class CustomAdapterInfoHome extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
     List<Info> infoList = new ArrayList<>();
 
-    public CustomAdapterInfo(Context context, List<Info> infoList) {
+    public CustomAdapterInfoHome(Context context, List<Info> infoList) {
         super();
         this.context = context;
         this.infoList = infoList;
@@ -48,12 +49,9 @@ public class CustomAdapterInfo extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.one_item_list_info, null);
+            convertView = layoutInflater.inflate(R.layout.one_item_list_info_home, null);
             holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             holder.tvContext = (TextView) convertView.findViewById(R.id.tvContext);
-            holder.imgWarning1 = (ImageView) convertView.findViewById(R.id.imgDegree1);
-            holder.imgWarning2 = (ImageView) convertView.findViewById(R.id.imgDegree2);
-            holder.imgWarning3 = (ImageView) convertView.findViewById(R.id.imgDegree3);
             holder.tvDateTime = (TextView) convertView.findViewById(R.id.tvDateTime);
 
             convertView.setTag(holder);
@@ -66,33 +64,10 @@ public class CustomAdapterInfo extends BaseAdapter {
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         holder.tvDateTime.setText(sfd.format(infoList.get(position).getDateTime()));
 
-        holder.imgWarning1.setImageResource(android.R.color.transparent);
-        holder.imgWarning2.setImageResource(android.R.color.transparent);
-        holder.imgWarning3.setImageResource(android.R.color.transparent);
-
-        if (infoList.get(position).getDegree().equals("Faible")) {
-            holder.imgWarning1.setImageResource(R.drawable.ic_warning_red_18dp);
-        }
-
-
-        if (infoList.get(position).getDegree().equals("Moyen")) {
-            holder.imgWarning1.setImageResource(R.drawable.ic_warning_red_18dp);
-            holder.imgWarning2.setImageResource(R.drawable.ic_warning_red_18dp);
-        }
-
-        if (infoList.get(position).getDegree().equals("Fort")) {
-            holder.imgWarning1.setImageResource(R.drawable.ic_warning_red_18dp);
-            holder.imgWarning2.setImageResource(R.drawable.ic_warning_red_18dp);
-            holder.imgWarning3.setImageResource(R.drawable.ic_warning_red_18dp);
-        }
-
 
 
         holder.tvTitle.setTag(String.valueOf(position));
         holder.tvContext.setTag(String.valueOf(position));
-        holder.imgWarning1.setTag(String.valueOf(position));
-        holder.imgWarning2.setTag(String.valueOf(position));
-        holder.imgWarning3.setTag(String.valueOf(position));
         holder.tvDateTime.setTag(String.valueOf(position));
 
 
@@ -103,10 +78,6 @@ public class CustomAdapterInfo extends BaseAdapter {
         TextView tvTitle;
         TextView tvContext;
         TextView tvDateTime;
-        ImageView imgWarning1;
-        ImageView imgWarning2;
-        ImageView imgWarning3;
-
     }
 
 }
