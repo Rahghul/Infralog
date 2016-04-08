@@ -22,7 +22,6 @@ import java.util.List;
 public class TabInfoActivity extends Fragment implements ServiceCallBack {
 
     ServiceInfo serviceInfo;
-    ProgressDialog dialog;
 
     List<Info> infosList = new ArrayList<>();
     ListView infoListView;
@@ -31,8 +30,6 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_info, container, false);
-
-        dialog = new ProgressDialog(getContext());
 
         infoListView = (ListView) view.findViewById(R.id.infoListView);
         Collections.reverse(infosList);
@@ -77,7 +74,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     }
 
     public void callServiceInfoGet() {
-        serviceInfo = new ServiceInfo(this, dialog, "getAllInfo");
+        serviceInfo = new ServiceInfo(this, getContext(), "getAllInfo");
         String urlGetInfo = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_info) ;
         serviceInfo.enquiry(urlGetInfo);
     }

@@ -12,7 +12,7 @@
         android:padding="15dp"
         android:id="@+id/relativeLayout">
 
-        <AutoCompleteTextView
+       <AutoCompleteTextView
             android:id="@+id/txt_search_gare"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -83,7 +83,6 @@
             android:layout_marginBottom="5dp"
             android:id="@+id/textView" />
         <ListView
-            android:background="@drawable/back_with_boarder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/infoInGareListView"

@@ -49,7 +49,7 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
 
 
     public void callServicePlanIDF() {
-        servicePlanIDF = new ServicePlanIDF(this, dialog, "getPlanIDF");
+        servicePlanIDF = new ServicePlanIDF(this, getContext(), "getPlanIDF");
         servicePlanIDF.enquiry(getActivity().getResources().getString(R.string.dns)
                 + getActivity().getResources().getString(R.string.url_divers_img_IDF));
     }

@@ -34,14 +34,12 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
 
     // Service Gare
 
-    ProgressDialog dialog;
     Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_display_secteur);
 
-        dialog = new ProgressDialog(this);
         mContext = this;
         secteursListView = (ListView)findViewById(R.id.secteurListView);
         secteurAdapter = new CustomAdapterSecteur(this, secteursList);
@@ -81,7 +79,7 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
     }
 
     public void callServiceSecteurFromGare(Long gareID){
-        serviceSecteur = new ServiceSecteur(this, dialog, "getSecteur");
+        serviceSecteur = new ServiceSecteur(this, this, "getSecteur");
         String urlGareGet = getString(R.string.dns) + getString(R.string.url_gare_one_query_id);
         serviceSecteur.enquiry(urlGareGet + gareID.toString());
     }

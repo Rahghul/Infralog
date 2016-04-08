@@ -2,6 +2,7 @@ package com.sncf.itif.Services.Gare;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 public class TabGareActivity extends Fragment implements ServiceCallBack {
 
     //String urlGareGet = "http://itif.cloudapp.net/sncf/rest/gare/";
@@ -42,7 +45,6 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     ServiceGare serviceGare;
     List<Gare> garesList = new ArrayList<>();
     CustomAdapterGare gareAdapter = null;
-    ProgressDialog dialog;
     AutoCompleteTextView txtSearchGare;
     //Button btnSearchGare;
     ImageView btnSearchGare;
@@ -65,8 +67,6 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         urlGareGet = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_gare);
         View view = inflater.inflate(R.layout.tab_gare, container, false);
-
-        dialog = new ProgressDialog(getContext());
 
         txtSearchGare = (AutoCompleteTextView) view.findViewById(R.id.txt_search_gare);
         txtSearchGare.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -237,19 +237,19 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
 
     public void callServiceGareGet() {
 
-        serviceGare = new ServiceGare(this, dialog, "getAll");
+        serviceGare = new ServiceGare(this, getContext(), "getAll");
         serviceGare.enquiry(urlGareGet);
     }
 
     public void callServiceNearestGare() {
-        serviceLocalisation = new ServiceLocalisation(this, dialog, "getNearestStation");
+        serviceLocalisation = new ServiceLocalisation(this, getContext(), "getNearestStation");
         String url_half_1 = getActivity().getResources().getString(R.string.url_navitia_half_1);
         String url_half_2 = getActivity().getResources().getString(R.string.url_navitia_half_2);
         serviceLocalisation.enquiry(url_half_1 + longitude + ";" + latitude + url_half_2);
     }
 
     public void callServiceInfoGet() {
-        serviceInfo = new ServiceInfo(this, dialog, "getAllInfo");
+        serviceInfo = new ServiceInfo(this, getContext(), "getAllInfo");
         String urlGetInfo = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_info) ;
         serviceInfo.enquiry(urlGetInfo);
     }

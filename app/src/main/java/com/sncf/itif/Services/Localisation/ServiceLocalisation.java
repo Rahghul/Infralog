@@ -1,8 +1,11 @@
 package com.sncf.itif.Services.Localisation;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.sncf.itif.R;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.Services.WebServiceUtil;
 
@@ -10,22 +13,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dmax.dialog.SpotsDialog;
+
 /**
  * Created by Rahghul on 29/03/2016.
  */
 public class ServiceLocalisation {
 
     final static String TAG = "---->Localisation";
-    private ProgressDialog dialog;
+    private AlertDialog dialog;
     private ServiceCallBack callBack;
     private Exception error;
     private String service;
     private int result;
 
-    public ServiceLocalisation(ServiceCallBack callBack, ProgressDialog dialog, String service) {
-        this.dialog = dialog;
+    public ServiceLocalisation(ServiceCallBack callBack, Context context, String service) {
         this.callBack = callBack;
         this.service = service;
+        this.dialog = new SpotsDialog(context, R.style.Custom);
     }
 
     public void enquiry(final String endpoint) {
@@ -33,9 +38,6 @@ public class ServiceLocalisation {
 
             @Override
             protected void onPreExecute() {
-                // TODO i18n
-                //   dialog = new ProgressDialog(c);
-                dialog.setMessage("Please wait..");
                 dialog.show();
             }
 

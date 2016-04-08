@@ -1,7 +1,10 @@
 package com.sncf.itif.Services.Gare;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.view.Window;
 
 
 import com.sncf.itif.Services.ServiceCallBack;
@@ -13,21 +16,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.sncf.itif.R;
+
+import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Rahghul on 21/03/2016.
  */
 public class ServiceGare {
-    private ProgressDialog dialog;
+    private AlertDialog dialog;
     private ServiceCallBack callBack;
     private Exception error;
     private String service;
     private int result;
 
-    public ServiceGare(ServiceCallBack callBack, ProgressDialog dialog, String service) {
-        this.dialog = dialog;
+    public ServiceGare(ServiceCallBack callBack, Context context, String service) {
         this.callBack = callBack;
         this.service = service;
+        this.dialog = new SpotsDialog(context, R.style.Custom);
     }
 
     public void enquiry(final String endpoint){
@@ -35,9 +41,6 @@ public class ServiceGare {
 
             @Override
             protected void onPreExecute() {
-                // TODO i18n
-                //   dialog = new ProgressDialog(c);
-                dialog.setMessage("Chargement...");
                 dialog.show();
             }
 

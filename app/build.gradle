@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile files('libs/library-1.2.1.jar')
+    compile 'com.github.d-max:spots-dialog:0.4@aar'
 }

@@ -31,9 +31,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     List<Plan> planList = new ArrayList<>();
 
 
-    //String urlPlanGetFromSecteur = getString(R.string.dns) + getString(R.string.url_secteur);
 
-    ProgressDialog dialog;
 
     ImageView imgView;
 
@@ -52,7 +50,6 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
         setSupportActionBar(toolbar);
         mContext = this;
         imgView = (ImageView) findViewById(R.id.imageView2);
-        dialog = new ProgressDialog(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -77,7 +74,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     }
 
     public void callServicePlanFromSecteur(Long secteurID){
-        servicePlan = new ServicePlan(this, dialog, "getPlanFromSecteur");
+        servicePlan = new ServicePlan(this, this, "getPlanFromSecteur");
         String urlPlanGetFromSecteur = getString(R.string.dns) + getString(R.string.url_secteur);
 
         servicePlan.enquiry(urlPlanGetFromSecteur + secteurID.toString() + "/carte");

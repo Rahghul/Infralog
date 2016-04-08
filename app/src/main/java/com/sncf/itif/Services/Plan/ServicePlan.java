@@ -1,8 +1,11 @@
 package com.sncf.itif.Services.Plan;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.sncf.itif.R;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.Services.WebServiceUtil;
 
@@ -13,19 +16,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 /**
  * Created by Rahghul on 23/03/2016.
  */
 public class ServicePlan {
 
-    private ProgressDialog dialog;
+    private AlertDialog dialog;
     private ServiceCallBack callBack;
     private Exception error;
     private String service;
     private int result;
 
-    public ServicePlan(ServiceCallBack callBack, ProgressDialog dialog, String service) {
-        this.dialog = dialog;
+    public ServicePlan(ServiceCallBack callBack, Context context, String service) {
+        this.dialog = new SpotsDialog(context, R.style.Custom);
         this.callBack = callBack;
         this.service = service;
     }
@@ -37,7 +42,7 @@ public class ServicePlan {
             protected void onPreExecute() {
                 // TODO i18n
                 //   dialog = new ProgressDialog(c);
-                dialog.setMessage("Chargement...");
+             //   dialog.setMessage("Chargement...");
                 dialog.show();
             }
 
