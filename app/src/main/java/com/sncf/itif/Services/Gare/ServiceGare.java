@@ -3,7 +3,12 @@ package com.sncf.itif.Services.Gare;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.view.Window;
 
 
@@ -99,6 +104,8 @@ public class ServiceGare {
         }
         return foundGares;
     }
+
+
 
 
 }

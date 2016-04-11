@@ -19,7 +19,7 @@ import dmax.dialog.SpotsDialog;
  */
 public class ServicePlanIDF {
 
-    private AlertDialog dialog;
+   // private AlertDialog dialog;
     private ServiceCallBack callBack;
     private Exception error;
     private String service;
@@ -28,7 +28,7 @@ public class ServicePlanIDF {
     public ServicePlanIDF(ServiceCallBack callBack, Context context, String service) {
         this.callBack = callBack;
         this.service = service;
-        this.dialog = new SpotsDialog(context, R.style.Custom);
+        //this.dialog = new SpotsDialog(context, R.style.Custom);
     }
 
     public void enquiry(final String endpoint){
@@ -58,9 +58,9 @@ public class ServicePlanIDF {
 
             @Override
             protected void onPostExecute(DiversImage plan) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+//                if (dialog.isShowing()) {
+//                    dialog.dismiss();
+//                }
                 try {
                     if (error != null) {
                         callBack.serviceFailure(error);

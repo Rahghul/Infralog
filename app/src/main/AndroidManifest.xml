@@ -4,7 +4,11 @@
 
     <!-- Location PERMISSION (GPS & Nework) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--Droit d'accès à l'Internet-->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--Poiur connaitre la disponibilité de la connexion internet-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application

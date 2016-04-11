@@ -1,7 +1,12 @@
 package com.sncf.itif.Services;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
 import android.util.Log;
+
+import com.sncf.itif.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -227,7 +232,7 @@ public class WebServiceUtil {
 
             String userCredentials = "a17e2db5-8d10-4747-b709-c216aaf80ae4:"; //"username:password";
             String basicAuth = "Basic " + new String(Base64.encode(userCredentials.getBytes(), Base64.DEFAULT));
-            urlConnection.setRequestProperty ("Authorization", basicAuth);
+            urlConnection.setRequestProperty("Authorization", basicAuth);
 //          urlConnection.setRequestProperty("Authorization", "Basic YTE3ZTJkYjUtOGQxMC00NzQ3LWI3MDktYzIxNmFhZjgwYWU0Og==");
             urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
             urlConnection.setReadTimeout(DATARETRIEVAL_TIMEOUT);
@@ -269,6 +274,9 @@ public class WebServiceUtil {
 
         return null;
     }
+
+
+
 
 
 }

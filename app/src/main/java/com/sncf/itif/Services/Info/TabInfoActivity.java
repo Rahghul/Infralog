@@ -2,7 +2,13 @@ package com.sncf.itif.Services.Info;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,13 +42,21 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         infoAdapter = new CustomAdapterInfo(getContext(), infosList);
         infoListView.setAdapter(infoAdapter);
 
-        callServiceInfoGet();
+
+        if (isNetworkAvailable() == true) {
+            callServiceInfoGet();
+        }
+
         return view;
     }
 
     @Override
     public void onResume() {
-        callServiceInfoGet();
+
+        if (isNetworkAvailable() == true) {
+            callServiceInfoGet();
+        }
+
         super.onResume();
     }
 
@@ -50,7 +64,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     public void serviceSuccess(Object object, int id_srv) {
         infosList.clear();
         if (id_srv == 3) {
-            infosList.addAll((List<Info>)object);
+            infosList.addAll((List<Info>) object);
 
             //showMessage("Infos List", infosList.toString());
             Collections.reverse(infosList);
@@ -63,8 +77,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
             ldf.setArguments(args);
             //Inflate the fragment
             getFragmentManager().beginTransaction().add(R.id.container, ldf).commit();*/
-        }
-        else
+        } else
             Toast.makeText(getContext(), "La liste des infos est vide.", Toast.LENGTH_LONG).show();
     }
 
@@ -75,7 +88,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
 
     public void callServiceInfoGet() {
         serviceInfo = new ServiceInfo(this, getContext(), "getAllInfo");
-        String urlGetInfo = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_info) ;
+        String urlGetInfo = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_info);
         serviceInfo.enquiry(urlGetInfo);
     }
 
@@ -86,4 +99,14 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         builder.setMessage(message);
         builder.show();
     }
+
+    //vérifie la disponibilité de l'accès à l'internet
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+
 }

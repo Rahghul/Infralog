@@ -3,12 +3,17 @@ package com.sncf.itif.Services.Secteur;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,24 +34,25 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
     ListView secteursListView;
     CustomAdapterSecteur secteurAdapter;
 
-    String DNS = "http://itif.cloudapp.net/";
-    //String DNS = "http://10.0.3.2:8080/";
-
-    // Service Gare
+    /*variable qui assure l'affichage AlertDialog Box internet settings une fois.
+     Problème rencontré : au démarrage la méthode onCreate and onResume exécuté une après l'autre
+     donc l'alert dialog box internet affiche deux fois.*/
+    Boolean isDisplay = false;
 
     Context mContext;
+    Long gareId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_display_secteur);
 
         mContext = this;
-        secteursListView = (ListView)findViewById(R.id.secteurListView);
+        secteursListView = (ListView) findViewById(R.id.secteurListView);
         secteurAdapter = new CustomAdapterSecteur(this, secteursList);
         secteursListView.setAdapter(secteurAdapter);
 
         Intent intent = getIntent();
-        final Long gareId = intent.getLongExtra("SelectedGareId",-1);
+        gareId = intent.getLongExtra("SelectedGareId", -1);
 
         secteursListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,24 +67,43 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
         });
 
 
-       // ArrayList<Secteur> secteurList =  (ArrayList<Secteur>)intent.getSerializableExtra("SecteurList");
+        // ArrayList<Secteur> secteurList =  (ArrayList<Secteur>)intent.getSerializableExtra("SecteurList");
         //showMessage("Gare ID:", gareId.toString());
 
-        callServiceSecteurFromGare(gareId);
-
+        if (isNetworkAvailable() == false) {
+            showNetworkAlert(this);
+            isDisplay = true;
+        } else {
+            isDisplay = false;
+            callServiceSecteurFromGare(gareId);
+        }
     }
 
 
-    public void showMessage(String title,String message)
-    {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    @Override
+    public void onResume() {
+        if (isNetworkAvailable() == false) {
+            if (!isDisplay) {
+                showNetworkAlert(this);
+                isDisplay = true;
+            }
+        } else {
+            isDisplay = false;
+            callServiceSecteurFromGare(gareId);
+        }
+
+        super.onResume();
+    }
+
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
     }
 
-    public void callServiceSecteurFromGare(Long gareID){
+    public void callServiceSecteurFromGare(Long gareID) {
         serviceSecteur = new ServiceSecteur(this, this, "getSecteur");
         String urlGareGet = getString(R.string.dns) + getString(R.string.url_gare_one_query_id);
         serviceSecteur.enquiry(urlGareGet + gareID.toString());
@@ -86,9 +111,9 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
 
     @Override
     public void serviceSuccess(Object object, int id_srv) {
-        if(id_srv == 2){
+        if (id_srv == 2) {
             secteursList.clear();
-            if(object != null){
+            if (object != null) {
                 secteursList.addAll((List<Secteur>) object);
                 //showMessage("Show Secteur List New", secteursList.toString());
                 //callServicePlanFromSecteur(secteursList.get(0).getId());
@@ -96,9 +121,8 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
                 secteurAdapter.notifyDataSetChanged();
 
 
-            }
-            else
-                Toast.makeText(this,"La liste des secteurs est vide.", Toast.LENGTH_LONG).show();
+            } else
+                Toast.makeText(this, "La liste des secteurs est vide.", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -117,4 +141,47 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
         }
         return true;
     }
-}
+
+    //vérifie la disponibilité de l'accès à l'internet
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    //Affichage de l'AlertBox Internet Settings
+    public void showNetworkAlert(final Context mContext) {
+        AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
+
+        // Setting Dialog Title
+        customBuilder.setTitle("Paramètre Internet :");
+        customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
+
+        // Setting Dialog Message
+        customBuilder.setMessage("Vous n'avez pas accès à l'Internet. Merci de vérifier votre connexion.");
+
+        // On pressing Settings button
+        customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS);
+                mContext.startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        customBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = customBuilder.create();
+        dialog.show();
+
+        Button btn_negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        btn_negative.setTextColor(getResources().getColor(R.color.color3));
+
+        Button btn_positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        btn_positive.setTextColor(getResources().getColor(R.color.color3));
+    }}

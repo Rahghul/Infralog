@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Button;
+
+import com.sncf.itif.R;
 
 @SuppressWarnings("ResourceType")
 public class GPSTracker extends Service implements LocationListener {
@@ -152,16 +155,17 @@ public class GPSTracker extends Service implements LocationListener {
      * On pressing Settings button will lauch Settings Options
      */
     public void showSettingsAlert(final Context mContext) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
-        alertDialog.setTitle("Paramètre Localisation :");
+        customBuilder.setTitle("Paramètre Localisation :");
+        customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
 
         // Setting Dialog Message
-        alertDialog.setMessage("Activer le service de localisation de cet appareil dans les paramètres.");
+        customBuilder.setMessage("Activer le service de localisation de cet appareil dans les paramètres.");
 
         // On pressing Settings button
-        alertDialog.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
+        customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 mContext.startActivity(intent);
@@ -169,14 +173,20 @@ public class GPSTracker extends Service implements LocationListener {
         });
 
         // on pressing cancel button
-        alertDialog.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+        customBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
 
-        // Showing Alert Message
-        alertDialog.show();
+        AlertDialog dialog = customBuilder.create();
+        dialog.show();
+
+        Button btn_negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        btn_negative.setTextColor(mContext.getResources().getColor(R.color.color3));
+
+        Button btn_positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        btn_positive.setTextColor(mContext.getResources().getColor(R.color.color3));
     }
 
     @Override

@@ -24,7 +24,7 @@ import dmax.dialog.SpotsDialog;
  */
 public class ServiceInfo {
 
-    private AlertDialog dialog;
+   // private AlertDialog dialog;
     private ServiceCallBack callBack;
     private Exception error;
     private String service;
@@ -33,7 +33,7 @@ public class ServiceInfo {
     public ServiceInfo(ServiceCallBack callBack, Context context, String service) {
         this.callBack = callBack;
         this.service = service;
-        this.dialog = new SpotsDialog(context, R.style.Custom);
+      //  this.dialog = new SpotsDialog(context, R.style.Custom);
 
     }
 
@@ -42,7 +42,7 @@ public class ServiceInfo {
 
             @Override
             protected void onPreExecute() {
-                dialog.show();
+           //     dialog.show();
             }
 
 
@@ -64,9 +64,9 @@ public class ServiceInfo {
 
             @Override
             protected void onPostExecute(List<Info> infos) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
+//                if (dialog.isShowing()) {
+//                    dialog.dismiss();
+//                }
                 try {
                     if (error != null) {
                         callBack.serviceFailure(error);

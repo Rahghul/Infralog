@@ -2,12 +2,18 @@ package com.sncf.itif;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.PaintDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,15 +25,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     PagerAdapter adapter;
+    Boolean var = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,16 +54,16 @@ public class MainActivity extends AppCompatActivity{
         ShapeDrawable.ShaderFactory sf = new ShapeDrawable.ShaderFactory() {
             @Override
             public Shader resize(int width, int height) {
-                LinearGradient lg = new LinearGradient(0, 0, tabLayout.getWidth(),0,
-                        new int[] {
+                LinearGradient lg = new LinearGradient(0, 0, tabLayout.getWidth(), 0,
+                        new int[]{
 
                                 getResources().getColor(R.color.color1),
                                 getResources().getColor(R.color.color2),
                                 getResources().getColor(R.color.color3),
                                 getResources().getColor(R.color.color4_1),
                                 getResources().getColor(R.color.color4_2)}, //substitute the correct colors for these
-                        new float[] {
-                                0.25f, 0.55f, 0.70f, 0.80f, 1 },
+                        new float[]{
+                                0.25f, 0.55f, 0.70f, 0.80f, 1},
                         Shader.TileMode.REPEAT);
                 return lg;
             }
@@ -62,6 +73,7 @@ public class MainActivity extends AppCompatActivity{
         p.setShaderFactory(sf);
         //tabLayout.setBackground(p);
         toolbar.setBackground(p);
+
 
         final ViewPager viewPager = (HackyViewPager) findViewById(R.id.pager);
         adapter = new PagerAdapter
@@ -78,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPageSelected(int position) {
                 Fragment fragment = ((PagerAdapter) viewPager.getAdapter()).getFragment(position);
-                if( fragment != null)
+                if (fragment != null)
                     fragment.onResume();
             }
 
@@ -109,9 +121,8 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,13 +140,13 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void showMessage(String title,String message)
-    {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
     }
+
 
 }
