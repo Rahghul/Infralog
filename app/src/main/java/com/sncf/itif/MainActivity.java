@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.home_title);
+        getSupportActionBar().setSubtitle(R.string.home_subTitle);
+
         // avoid to open keyboard automatically when activity starts.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 

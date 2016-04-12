@@ -12,18 +12,18 @@
         android:layout_height="wrap_content"
         android:text="Title"
         android:textColor="@color/color3"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
 
-    <TextView
+<!--    <TextView
         android:id="@+id/tvContext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="Context"
         android:textColor="@color/color1"
-        android:textSize="13dp" />
+        android:textSize="13dp" />-->
 
 
     <RelativeLayout
@@ -38,8 +38,7 @@
             android:layout_height="wrap_content"
             android:text="Date Time"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/color4.2"
-            android:textStyle="bold" />
+            android:textColor="@color/color4.2" />
 
 
     </RelativeLayout>

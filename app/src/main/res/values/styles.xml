@@ -4,22 +4,27 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color1</item>
-         <item name="colorPrimaryDark">@color/color1</item>
-         <item name="colorAccent">@color/color4.2</item>
-     </style>
+        <item name="colorPrimaryDark">@color/color1</item>
+        <item name="colorAccent">@color/color4.2</item>
+    </style>
 
-     <style name="AppTheme.NoActionBar">
-         <item name="windowActionBar">false</item>
-         <item name="windowNoTitle">true</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!--toolbar title theme -->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--menu box theme-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-     </style>
-
-     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <!--style for loading alert box-->
+    <!--Theme for loading alert box-->
     <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
         <item name="DialogTitleText">Chargement</item>
@@ -29,4 +34,4 @@
         <item name="android:background">#ededed</item>
     </style>
 
- </resources>
+</resources>

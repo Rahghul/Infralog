@@ -51,7 +51,7 @@ public class CustomAdapterInfoHome extends BaseAdapter {
             holder = new ViewHolder();
             convertView = layoutInflater.inflate(R.layout.one_item_list_info_home, null);
             holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            holder.tvContext = (TextView) convertView.findViewById(R.id.tvContext);
+            //holder.tvContext = (TextView) convertView.findViewById(R.id.tvContext);
             holder.tvDateTime = (TextView) convertView.findViewById(R.id.tvDateTime);
 
             convertView.setTag(holder);
@@ -60,14 +60,14 @@ public class CustomAdapterInfoHome extends BaseAdapter {
         }
 
         holder.tvTitle.setText(infoList.get(position).getTitle());
-        holder.tvContext.setText(infoList.get(position).getContext());
+        //holder.tvContext.setText(infoList.get(position).getContext());
         SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         holder.tvDateTime.setText(sfd.format(infoList.get(position).getDateTime()));
 
 
 
         holder.tvTitle.setTag(String.valueOf(position));
-        holder.tvContext.setTag(String.valueOf(position));
+        //holder.tvContext.setTag(String.valueOf(position));
         holder.tvDateTime.setTag(String.valueOf(position));
 
 
@@ -76,7 +76,7 @@ public class CustomAdapterInfoHome extends BaseAdapter {
 
     class ViewHolder {
         TextView tvTitle;
-        TextView tvContext;
+        //TextView tvContext;
         TextView tvDateTime;
     }
 

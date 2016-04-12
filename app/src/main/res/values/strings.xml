@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">Infralog Travaux</string>
-    <string name="secteur_name">Secteurs</string>
-    <string name="plan_name">Plans</string>
-    <string name="detail_name">Plan en détail</string>
+    <string name="app_name">PLAS</string>
+    <string name="home_title">Particularités Locales - Agent Sécurité du Personnel</string>
+    <string name="home_subTitle">Infralog Travaux Ile de France</string>
+    <string name="secteur_title">Secteurs</string>
+    <string name="plan_title">Plans</string>
+    <string name="detail_title">Plan en détail</string>
     <string name="action_settings">Settings</string>
 
 

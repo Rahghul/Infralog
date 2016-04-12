@@ -46,6 +46,7 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         if (NetworkOpt.isNetworkAvailable(getContext()) == true) {
             callServicePlanIDF();
         }
+        mAttacher = new PhotoViewAttacher(image_carte);
 
 
         return view;
@@ -59,8 +60,8 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         } else {
             if(isNetworkFail) {
                 callServicePlanIDF();
-                mAttacher = new PhotoViewAttacher(image_carte);
                 isNetworkFail = false;
+                mAttacher.update();
             }
         }
         super.onResume();
