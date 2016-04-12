@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.sncf.itif.R;
 import com.sncf.itif.Services.Gare.TabGareActivity;
+import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.ServiceCallBack;
 
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         infoListView.setAdapter(infoAdapter);
 
 
-        if (isNetworkAvailable() == true) {
-            callServiceInfoGet();
-        }
+//        if (isNetworkAvailable() == true) {
+//            callServiceInfoGet();
+//        }
 
         return view;
     }
@@ -53,7 +54,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     @Override
     public void onResume() {
 
-        if (isNetworkAvailable() == true) {
+        if (NetworkOpt.isNetworkAvailable(getContext()) == true) {
             callServiceInfoGet();
         }
 
@@ -100,13 +101,6 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         builder.show();
     }
 
-    //vérifie la disponibilité de l'accès à l'internet
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
 
 
 }

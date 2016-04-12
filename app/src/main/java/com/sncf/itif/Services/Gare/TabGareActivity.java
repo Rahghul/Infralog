@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.sncf.itif.Services.Info.Info;
 import com.sncf.itif.Services.Info.ServiceInfo;
 import com.sncf.itif.Services.Localisation.GPSTracker;
+import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 import com.sncf.itif.Services.Localisation.ServiceLocalisation;
@@ -38,15 +39,12 @@ import java.util.List;
 
 public class TabGareActivity extends Fragment implements ServiceCallBack {
 
-    //String urlGareGet = "http://itif.cloudapp.net/sncf/rest/gare/";
     String urlGareGet;
     ServiceGare serviceGare;
     List<Gare> garesList = new ArrayList<>();
     CustomAdapterGare gareAdapter = null;
     AutoCompleteTextView txtSearchGare;
-    //Button btnSearchGare;
-//    ImageView btnSearchGare;
-//    TextView tv_position;
+
     Button btnLocaliser;
     Gare selectedGareFromSearch;
 
@@ -62,17 +60,28 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     List<Info> infosList = new ArrayList<>();
     ServiceInfo serviceInfo;
 
-    /*variable qui assure l'affichage AlertDialog Box internet settings une fois.
-     Problème rencontré : au démarrage la méthode onCreate and onResume exécuté une après l'autre
-     donc l'alert dialog box internet affiche deux fois.*/
-    Boolean isDisplay = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        urlGareGet = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_gare);
         View view = inflater.inflate(R.layout.tab_gare, container, false);
+        urlGareGet = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_gare);
 
         txtSearchGare = (AutoCompleteTextView) view.findViewById(R.id.txt_search_gare);
+
+        //Bouton invisible derrière image localiseur et le texte "Ma position"
+        btnLocaliser = (Button) view.findViewById(R.id.btn_localiser);
+
+        //Liste concernant les dernières mises à jours
+        infoListView = (ListView) view.findViewById(R.id.infoInGareListView);
+        infoAdapterHome = new CustomAdapterInfoHome(getContext(), infosList);
+        infoListView.setAdapter(infoAdapterHome);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+
+        //click event on list item of "autocomplete" object.
         txtSearchGare.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
                 selectedGareFromSearch = (Gare) parent.getItemAtPosition(position);
@@ -85,7 +94,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
             }
         });
 
-
+        //event excuted when you click on "OK" button on keyboard
         txtSearchGare.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -108,8 +117,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
             }
         });
 
-        //Bouton invisible derrière image localiseur et le texte "Ma position"
-        btnLocaliser = (Button) view.findViewById(R.id.btn_localiser);
+        // click event on "Ma position" and "Image Localiser"; le bouton est invisible
         btnLocaliser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,29 +128,18 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                     longitude = gps.getLongitude();
                     Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
                     if (latitude != 0.0 && longitude != 0.0) {
-//                        if (garesList.size() < 10) {
-//                            if (isNetworkAvailable() == false) {
-//                                showNetworkAlert(getContext());
-//                                isDisplay = true;
-//                                return;
-//                            } else {
-//                                isDisplay = false;
-//                                callServiceGareGet();
-//                            }
-//                        }
+/*                        if (garesList.size() < 10) {
+                                callServiceGareGet();
+                        }*/
 
-                        if (isNetworkAvailable() == false) {
-                            showNetworkAlert(getContext());
-                            isDisplay = true;
+                        if (NetworkOpt.isNetworkAvailable(getContext()) == false) {
+                            NetworkOpt.showNetworkAlert(getContext());
                             return;
                         } else {
-                            isDisplay = false;
                             callServiceNearestGare();
                         }
                     }
-                    // \n is for new line
                     //Toast.makeText(getContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                    //gps.showSettingsAlert();
                 } else {
                     // can't get location
                     // GPS or Network is not enabled
@@ -151,84 +148,18 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                 }
             }
         });
-/*
-        //evenement Click : Bouton de recherche géolocalisation
-        tv_position = (TextView) view.findViewById(R.id.tv_ma_position);
-        tv_position.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gps = new GPSTracker(getContext());
-                // check if GPS enabled
-                if (gps.canGetLocation()) {
-                    latitude = gps.getLatitude();
-                    longitude = gps.getLongitude();
-                    Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
-                    if (latitude != 0.0 && longitude != 0.0)
-                        if (garesList.size() < 10)
-                            callServiceGareGet();
 
-                    callServiceNearestGare();
-                } else {
-                    gps.showSettingsAlert(getContext());
-                }
-            }
-        });
-        btnSearchGare = (ImageView) view.findViewById(R.id.img_localiser);
-        btnSearchGare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                gps = new GPSTracker(getContext());
-                // check if GPS enabled
-                if (gps.canGetLocation()) {
-                    latitude = gps.getLatitude();
-                    longitude = gps.getLongitude();
-                    Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
-                    if (latitude != 0.0 && longitude != 0.0)
-                        //callServiceGareGet();
-                        if (garesList.size() < 10)
-                            callServiceGareGet();
-                    callServiceNearestGare();
-                    // \n is for new line
-                    //Toast.makeText(getContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                    //gps.showSettingsAlert();
-                } else {
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert(getContext());
-                }
-            }
-        });*/
-
-
-        infoListView = (ListView) view.findViewById(R.id.infoInGareListView);
-        Collections.reverse(infosList);
-        infoAdapterHome = new CustomAdapterInfoHome(getContext(), infosList);
-        infoListView.setAdapter(infoAdapterHome);
-
-        if (isNetworkAvailable() == false) {
-            showNetworkAlert(getContext());
-            isDisplay = true;
-        } else {
-            isDisplay = false;
-            callServiceGareGet();
-            callServiceInfoGet();
-        }
-
-
-        return view;
+        super.onStart();
     }
 
     @Override
     public void onResume() {
-        if (isNetworkAvailable() == false) {
-            if (!isDisplay) {
-                showNetworkAlert(getContext());
-                isDisplay = true;
-            }
+        // vérifie si l'internet est présent
+        if (NetworkOpt.isNetworkAvailable(getContext()) == false) {
+            // en absence de l'internet, pop up un alerte dialog box
+            NetworkOpt.showNetworkAlert(getContext());
         } else {
-            isDisplay = false;
+            // Call Gare service and Info service to update the content
             callServiceGareGet();
             callServiceInfoGet();
         }
@@ -290,16 +221,16 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         }
 
         if (id_srv == 3) {
+            //Récupération le contenu de la liste Info(MAJ)
             infosList.clear();
             if (object != null) {
                 infosList.addAll((List<Info>) object);
-
-                //showMessage("Infos List", infosList.toString());
+                //On inverse la liste obtenue pour afficher les messages plus récentes en premier
                 Collections.reverse(infosList);
                 infoAdapterHome.notifyDataSetChanged();
             } else
-                Toast.makeText(getContext(), "La liste des infos est vide.", Toast.LENGTH_LONG).show();
-        }
+                Toast.makeText(getContext(), "La liste des mises à jours est vide.", Toast.LENGTH_LONG).show();
+    }
     }
 
     @Override
@@ -308,7 +239,6 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     }
 
     public void callServiceGareGet() {
-
         serviceGare = new ServiceGare(this, getContext(), "getAll");
         serviceGare.enquiry(urlGareGet);
     }
@@ -363,47 +293,5 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         alertDialog.show();
     }
 
-    //vérifie la disponibilité de l'accès à l'internet
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
 
-    //Affichage de l'AlertBox Internet Settings
-    public void showNetworkAlert(final Context mContext) {
-        AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
-
-        // Setting Dialog Title
-        customBuilder.setTitle("Paramètre Internet :");
-        customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
-
-        // Setting Dialog Message
-        customBuilder.setMessage("Vous n'avez pas accès à l'Internet. Merci de vérifier votre connexion.");
-
-        // On pressing Settings button
-        customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS);
-                mContext.startActivity(intent);
-            }
-        });
-
-        // on pressing cancel button
-        customBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = customBuilder.create();
-        dialog.show();
-
-        Button btn_negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        btn_negative.setTextColor(getResources().getColor(R.color.color3));
-
-        Button btn_positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        btn_positive.setTextColor(getResources().getColor(R.color.color3));
-    }
 }

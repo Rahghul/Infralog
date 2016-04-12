@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.Plan.PlanActivity;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
@@ -37,10 +38,11 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
     /*variable qui assure l'affichage AlertDialog Box internet settings une fois.
      Problème rencontré : au démarrage la méthode onCreate and onResume exécuté une après l'autre
      donc l'alert dialog box internet affiche deux fois.*/
-    Boolean isDisplay = false;
+    // Boolean isDisplay = false;
 
     Context mContext;
     Long gareId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,21 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
         Intent intent = getIntent();
         gareId = intent.getLongExtra("SelectedGareId", -1);
 
+
+        // ArrayList<Secteur> secteurList =  (ArrayList<Secteur>)intent.getSerializableExtra("SecteurList");
+        //showMessage("Gare ID:", gareId.toString());
+
+//        if (isNetworkAvailable() == false) {
+//            showNetworkAlert(this);
+//            isDisplay = true;
+//        } else {
+//            isDisplay = false;
+//            callServiceSecteurFromGare(gareId);
+//        }
+    }
+
+    @Override
+    protected void onStart() {
         secteursListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -66,29 +83,18 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
             }
         });
 
-
-        // ArrayList<Secteur> secteurList =  (ArrayList<Secteur>)intent.getSerializableExtra("SecteurList");
-        //showMessage("Gare ID:", gareId.toString());
-
-        if (isNetworkAvailable() == false) {
-            showNetworkAlert(this);
-            isDisplay = true;
-        } else {
-            isDisplay = false;
-            callServiceSecteurFromGare(gareId);
-        }
+        super.onStart();
     }
-
 
     @Override
     public void onResume() {
-        if (isNetworkAvailable() == false) {
-            if (!isDisplay) {
-                showNetworkAlert(this);
-                isDisplay = true;
-            }
+        if (NetworkOpt.isNetworkAvailable(this) == false) {
+            //  if (!isDisplay) {
+            NetworkOpt.showNetworkAlert(this);
+            //      isDisplay = true;
+            //  }
         } else {
-            isDisplay = false;
+            //  isDisplay = false;
             callServiceSecteurFromGare(gareId);
         }
 
@@ -142,46 +148,5 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
         return true;
     }
 
-    //vérifie la disponibilité de l'accès à l'internet
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
 
-    //Affichage de l'AlertBox Internet Settings
-    public void showNetworkAlert(final Context mContext) {
-        AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
-
-        // Setting Dialog Title
-        customBuilder.setTitle("Paramètre Internet :");
-        customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
-
-        // Setting Dialog Message
-        customBuilder.setMessage("Vous n'avez pas accès à l'Internet. Merci de vérifier votre connexion.");
-
-        // On pressing Settings button
-        customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS);
-                mContext.startActivity(intent);
-            }
-        });
-
-        // on pressing cancel button
-        customBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = customBuilder.create();
-        dialog.show();
-
-        Button btn_negative = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        btn_negative.setTextColor(getResources().getColor(R.color.color3));
-
-        Button btn_positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        btn_positive.setTextColor(getResources().getColor(R.color.color3));
-    }}
+}

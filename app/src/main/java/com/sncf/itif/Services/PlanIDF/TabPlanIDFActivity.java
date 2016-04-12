@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 
@@ -30,7 +31,6 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
 
     ImageView image_carte;
     ServicePlanIDF servicePlanIDF;
-    ProgressDialog dialog;
 
     DiversImage planIDFReceived;
     PhotoViewAttacher mAttacher;
@@ -42,12 +42,10 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
 
         image_carte = (ImageView) view.findViewById(R.id.image_idf);
 
-        dialog = new ProgressDialog(getActivity());
 
-        if (isNetworkAvailable() == true) {
+        if (NetworkOpt.isNetworkAvailable(getContext()) == true) {
             callServicePlanIDF();
         }
-        mAttacher = new PhotoViewAttacher(image_carte);
 
 
         return view;
@@ -56,11 +54,12 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
     @Override
     public void onResume() {
         //We play with variable isNetworkFail to allow display the IDF card once if network failed
-        if (isNetworkAvailable() == false) {
+        if (NetworkOpt.isNetworkAvailable(getContext()) == false) {
             isNetworkFail = true;
         } else {
             if(isNetworkFail) {
                 callServicePlanIDF();
+                mAttacher = new PhotoViewAttacher(image_carte);
                 isNetworkFail = false;
             }
         }
@@ -114,12 +113,6 @@ public class TabPlanIDFActivity extends Fragment implements ServiceCallBack {
         builder.show();
     }
 
-    //vérifie la disponibilité de l'accès à l'internet
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
+
 
 }
