@@ -44,23 +44,22 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     GridView gridView;
     GridViewAdapter gridAdapter;
 
-    /*variable qui assure l'affichage AlertDialog Box internet settings une fois.
-    Problème rencontré : au démarrage la méthode onCreate and onResume exécuté une après l'autre
-    donc l'alert dialog box internet affiche deux fois.*/
-    // Boolean isDisplay = false;
     Long secteurId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Désactive le mode capture d'écran
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
 
-        setContentView(R.layout.activity_display_plan);
+        setContentView(R.layout.content_display_plan);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.plan_title);
+        getSupportActionBar().setSubtitle(R.string.home_title);
+
+
         mContext = this;
         imgView = (ImageView) findViewById(R.id.imageView2);
 
@@ -72,24 +71,13 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
 
         gridView = (GridView) findViewById(R.id.gridView);
 
-//        if (isNetworkAvailable() == false) {
-//            showNetworkAlert(this);
-//            isDisplay = true;
-//        } else {
-//            isDisplay = false;
-//            callServicePlanFromSecteur(secteurId);
-//        }
     }
 
     @Override
     public void onResume() {
         if (NetworkOpt.isNetworkAvailable(this) == false) {
-            //  if (!isDisplay) {
             NetworkOpt.showNetworkAlert(this);
-            //     isDisplay = true;
-            // }
         } else {
-            //   isDisplay = false;
             callServicePlanFromSecteur(secteurId);
         }
 

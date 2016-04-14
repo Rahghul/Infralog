@@ -15,7 +15,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+
+        android:largeHeap="true"
+        android:hardwareAccelerated="false">
+        <!-- two above parameters added to solve the problem of display large image-->
+
         <activity
             android:name="com.sncf.itif.MainActivity"
             android:screenOrientation="portrait"
@@ -37,11 +42,21 @@
             android:label="@string/plan_title"
             android:parentActivityName="com.sncf.itif.Services.Secteur.SecteurActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.sncf.itif.Services.DetailPlan.DetailPlanActivity"
             android:label="@string/detail_title"
             android:parentActivityName="com.sncf.itif.Services.Plan.PlanActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.sncf.itif.Services.PlanIDF.WebViewCartoActivity"
+            android:label="title web"
+            android:parentActivityName="com.sncf.itif.Services.PlanIDF.WebViewCartoActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.sncf.itif.Services.PlanIDF.RATPplanIDFActivity"
+            android:label="title Image"
+            android:parentActivityName="com.sncf.itif.Services.PlanIDF.RATPplanIDFActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

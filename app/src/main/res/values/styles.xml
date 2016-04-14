@@ -17,7 +17,7 @@
 
     <!--toolbar title theme -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">17dp</item>
     </style>
 
     <!--menu box theme-->
