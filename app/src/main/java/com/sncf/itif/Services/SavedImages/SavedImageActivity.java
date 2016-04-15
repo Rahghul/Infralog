@@ -88,6 +88,7 @@ public class SavedImageActivity extends AppCompatActivity {
             //Toast.makeText(this, "res : "+((nowTime - lastTime)/1000) + " sec", Toast.LENGTH_LONG).show();
             if (nowTime - lastTime > 60*60*1000){ //=1 h
                 filePath.delete();
+
             }
             else {
                 //sinon on retourne l'image
