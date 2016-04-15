@@ -58,6 +58,12 @@
             android:label="title Image"
             android:parentActivityName="com.sncf.itif.Services.PlanIDF.RATPplanIDFActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="com.sncf.itif.Services.SavedImages.SavedImageActivity"
+            android:label="Plan enregistré"
+            android:parentActivityName="com.sncf.itif.Services.SavedImages.SavedImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.sncf.itif.Services.PlanIDF;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.sncf.itif.R;
 
@@ -15,6 +16,9 @@ public class WebViewCartoActivity extends Activity {
         setContentView(R.layout.webview_carto);
 
         webView = (WebView) findViewById(R.id.webViewCarto);
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://carto.metro.free.fr/cartes/rer-idf/");
 

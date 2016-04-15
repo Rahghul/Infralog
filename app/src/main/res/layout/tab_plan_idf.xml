@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="* Ce plan intéractif ne doit pas etre utilisé pour les particularité locales mais à titre d'information pour géolocaliser les gares."
         android:id="@+id/textView2"
+        android:layout_margin="10dp"
         android:textColor="@color/color1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />

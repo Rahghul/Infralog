@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,6 +30,7 @@ import com.sncf.itif.Services.Info.Info;
 import com.sncf.itif.Services.Info.ServiceInfo;
 import com.sncf.itif.Services.Localisation.GPSTracker;
 import com.sncf.itif.Services.Network.NetworkOpt;
+import com.sncf.itif.Services.SavedImages.SavedImageActivity;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 import com.sncf.itif.Services.Localisation.ServiceLocalisation;
@@ -65,6 +68,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         View view = inflater.inflate(R.layout.tab_gare, container, false);
         urlGareGet = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_gare);
 
+
         txtSearchGare = (AutoCompleteTextView) view.findViewById(R.id.txt_search_gare);
 
         //Bouton invisible derrière image localiseur et le texte "Ma position"
@@ -88,9 +92,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                 Log.d("Item clicked", selectedGareFromSearch.getName());
 
                 //start display Secteur Activity
-                Intent intent = new Intent(getContext(), SecteurActivity.class);
-                intent.putExtra("SelectedGareId", selectedGareFromSearch.getId());
-                startActivityForResult(intent, 1);
+                goToSecteurActivity(selectedGareFromSearch);
             }
         });
 
@@ -104,9 +106,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                         for (Gare g : garesList) {
                             if (g.getName().trim().equals(gareName)) {
                                 //start display Secteur Activity
-                                Intent intent = new Intent(getContext(), SecteurActivity.class);
-                                intent.putExtra("SelectedGareId", g.getId());
-                                startActivityForResult(intent, 1);
+                                goToSecteurActivity(g);
                             } /*else {
                                 Toast.makeText(getContext(), "Cette gare n'est pas répertoriée dans notre base.", Toast.LENGTH_SHORT).show();
                             }*/
@@ -276,9 +276,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         // On pressing Settings button
         alertDialog.setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getContext(), SecteurActivity.class);
-                intent.putExtra("SelectedGareId", gare.getId());
-                startActivityForResult(intent, 1);
+                goToSecteurActivity(gare);
             }
         });
 
@@ -294,4 +292,10 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     }
 
 
+    void goToSecteurActivity(Gare gare){
+        Intent intent = new Intent(getContext(), SecteurActivity.class);
+        intent.putExtra("SelectedGareId", gare.getId());
+        intent.putExtra("SelectedGareName", gare.getName());
+        startActivityForResult(intent, 1);
+    }
 }

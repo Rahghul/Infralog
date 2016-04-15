@@ -1,33 +1,27 @@
 package com.sncf.itif.Services.Plan;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sncf.itif.Services.DetailPlan.DetailPlanActivity;
 import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
-import com.sncf.itif.Services.DetailPlan.DetailPlanActivity;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +31,13 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     List<Plan> planList = new ArrayList<>();
 
 
-    ImageView imgView;
-
     Context mContext;
 
     GridView gridView;
-    GridViewAdapter gridAdapter;
+    GridViewPlanAdapter gridAdapter;
 
     Long secteurId;
+    String gareName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +54,14 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
 
 
         mContext = this;
-        imgView = (ImageView) findViewById(R.id.imageView2);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         secteurId = intent.getLongExtra("SelectedSecteurId", -1);
-        //showMessage("Secteur Id", secteurId.toString());
+        gareName = intent.getStringExtra("SelectedGareName");
 
+        //showMessage("Secteur Id", secteurId.toString());
         gridView = (GridView) findViewById(R.id.gridView);
 
     }
@@ -106,25 +99,26 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
             if (object != null) {
                 planList.addAll((List<Plan>) object);
                 //showMessage("Plan List", planList.toString());
-                gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, planList);
+                gridAdapter = new GridViewPlanAdapter(this, R.layout.grid_item_plan_layout, planList);
                 gridView.setAdapter(gridAdapter);
-                //imgView.setImageBitmap(StringToBitMap(planList.get(1).getImage()));
 
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                        Plan item = (Plan) parent.getItemAtPosition(position);
+                        Plan itemPlan = (Plan) parent.getItemAtPosition(position);
+                        //Save image
+                        if (saveImageToInternalStorage(itemPlan) == false) {
+                            Toast.makeText(mContext, "Image Clicked not saved !!!", Toast.LENGTH_LONG).show();
+                        }
+
                         //Create intent
-
-
                         Intent intent = new Intent(mContext, DetailPlanActivity.class);
-                        intent.putExtra("id", item.getId());
+                        intent.putExtra("id", itemPlan.getId());
                         startActivity(intent);
 
                                                 /*intent.putExtra("version", item.getVersion());
                         intent.putExtra("image", item.getImage());*/
                         //intent.putExtra("com.sncf.myapplication2.Services.Plan", item);
 
-                        //Start details activity
                     }
                 });
 
@@ -160,6 +154,30 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
                 break;
         }
         return true;
+    }
+
+
+    public boolean saveImageToInternalStorage(Plan plan) {
+
+        try {
+            // Use the compress method on the Bitmap object to write image to
+            // the OutputStream
+
+            String imageName = "IMG%" + plan.getId() + "%" + gareName + "%" + plan.getReference() + "%" + plan.getVersion();
+            //FileOutputStream fos = new FileOutputStream(this.getFilesDir().getAbsolutePath()+"/"+imageName);
+            //Toast.makeText(mContext, imageName, Toast.LENGTH_LONG).show();
+            FileOutputStream fos = this.openFileOutput(imageName, Context.MODE_PRIVATE);
+
+            // Writing the bitmap to the output stream
+            Bitmap image = StringToBitMap(plan.getPlan());
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+
+            return true;
+        } catch (Exception e) {
+            Log.e("saveToInternalStorage()", e.getMessage());
+            return false;
+        }
     }
 
 }

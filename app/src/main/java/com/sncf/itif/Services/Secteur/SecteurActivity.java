@@ -42,6 +42,7 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
 
     Context mContext;
     Long gareId;
+    String gareName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
 
         Intent intent = getIntent();
         gareId = intent.getLongExtra("SelectedGareId", -1);
-
+        gareName = intent.getStringExtra("SelectedGareName");
 
         // ArrayList<Secteur> secteurList =  (ArrayList<Secteur>)intent.getSerializableExtra("SecteurList");
         //showMessage("Gare ID:", gareId.toString());
@@ -82,6 +83,8 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
                 //start display Secteur Activity
                 Intent intent = new Intent(mContext, PlanActivity.class);
                 intent.putExtra("SelectedSecteurId", ((Secteur) o).getId());
+                intent.putExtra("SelectedGareName", gareName);
+
                 startActivityForResult(intent, 1);
             }
         });

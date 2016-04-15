@@ -1,20 +1,13 @@
 package com.sncf.itif.Services.DetailPlan;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +15,10 @@ import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.Plan.Plan;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Date;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -39,19 +36,22 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
     //Boolean isDisplay = false;
 
     Long img_id;
+    String savedImageTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
-        setContentView(R.layout.details_activity);
+        setContentView(R.layout.details_plan_activity);
 
-        imgPlan = (ImageView) findViewById(R.id.image_detail);
+        imgPlan = (ImageView) findViewById(R.id.image_small);
         mAttacher = new PhotoViewAttacher(imgPlan);
 
         img_id = getIntent().getLongExtra("id", -1);
+        savedImageTitle = getIntent().getStringExtra("SavedImageTitle");
 
+        imgPlan.setImageBitmap(getThumbnail(savedImageTitle));
         //mAttacher.update();
 
         //DiversImage planIDF = getIntent().getExtras().getParcelable("com.sncf.myapplication2.Services.DiversImage");
@@ -101,7 +101,7 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
             //  isDisplay = false;
             if (img_id != -1)
                 callServicePlanFromSecteur(img_id);
-            else
+            else if (savedImageTitle == null)
                 Toast.makeText(this, "Erreur d'affichage, à réessayer.", Toast.LENGTH_LONG).show();
 
         }
@@ -150,5 +150,20 @@ public class DetailPlanActivity extends ActionBarActivity implements ServiceCall
         serviceDetailPlan.enquiry(url_carte_by_id + planID);
     }
 
+    public Bitmap getThumbnail(String filename) {
 
+        Bitmap thumbnail = null;
+
+        try {
+            File filePath = this.getFileStreamPath(filename);
+
+            FileInputStream fi = new FileInputStream(filePath);
+            thumbnail = BitmapFactory.decodeStream(fi);
+
+
+        } catch (Exception ex) {
+            Log.e("Internal Storage", ex.getMessage());
+        }
+        return thumbnail;
+    }
 }

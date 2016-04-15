@@ -20,12 +20,12 @@ import java.util.List;
 /**
  * Created by Rahghul on 23/03/2016.
  */
-public class GridViewAdapter extends ArrayAdapter {
+public class GridViewPlanAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
     private List<Plan> data = new ArrayList();
 
-    public GridViewAdapter(Context context, int layoutResourceId, List<Plan> data) {
+    public GridViewPlanAdapter(Context context, int layoutResourceId, List<Plan> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -39,11 +39,11 @@ public class GridViewAdapter extends ArrayAdapter {
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(R.layout.grid_item_layout, parent, false);
+            row = inflater.inflate(R.layout.grid_item_plan_layout, parent, false);
             holder = new ViewHolder();
-            holder.imageTitleRef = (TextView) row.findViewById(R.id.txt_reference);
-            holder.imageTitleVers = (TextView) row.findViewById(R.id.txt_version);
-            holder.image = (ImageView) row.findViewById(R.id.image_detail);
+            holder.imageTitleRef = (TextView) row.findViewById(R.id.txt_line1);
+            holder.imageTitleVers = (TextView) row.findViewById(R.id.txt_line2);
+            holder.image = (ImageView) row.findViewById(R.id.image_small);
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();

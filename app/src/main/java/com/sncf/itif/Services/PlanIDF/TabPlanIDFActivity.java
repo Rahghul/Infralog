@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sncf.itif.Services.Network.NetworkOpt;
+import com.sncf.itif.Services.SavedImages.SavedImageActivity;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 
@@ -49,6 +50,7 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
 
         planIDFList.add("Accès au plan IDF de RATP");
         planIDFList.add("Accès au plan IDF de Carto*");
+        planIDFList.add("Accès au plan enregistré");
         planIDFListView = (ListView) view.findViewById(R.id.planIDFListView);
         planIDFAdapter = new ArrayAdapter(getContext(), R.layout.one_item_list_plan_idf, planIDFList);
         planIDFListView.setAdapter(planIDFAdapter);
@@ -71,6 +73,12 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
                     startActivity(intent);
                 }
 
+                //Click on plan enregistré
+                if (position == 2) {
+
+                    Intent intent = new Intent(getContext(), SavedImageActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
