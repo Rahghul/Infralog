@@ -52,6 +52,7 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
         getSupportActionBar().setTitle(R.string.secteur_title);
         getSupportActionBar().setSubtitle(R.string.home_title);
 
+
         mContext = this;
         secteursListView = (ListView) findViewById(R.id.secteurListView);
         secteurAdapter = new CustomAdapterSecteur(this, secteursList);
