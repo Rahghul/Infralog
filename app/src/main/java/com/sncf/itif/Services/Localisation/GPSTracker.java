@@ -158,11 +158,11 @@ public class GPSTracker extends Service implements LocationListener {
         AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
-        customBuilder.setTitle("Paramètre Localisation :");
+        customBuilder.setTitle("Erreur position");
         customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
 
         // Setting Dialog Message
-        customBuilder.setMessage("Activer le service de localisation de cet appareil dans les paramètres.");
+        customBuilder.setMessage("Localisation impossible. Veuillez activer le service de localisation et réessayer.");
 
         // On pressing Settings button
         customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {

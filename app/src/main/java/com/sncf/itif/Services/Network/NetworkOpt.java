@@ -27,11 +27,11 @@ public final class  NetworkOpt {
         AlertDialog.Builder customBuilder = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
-        customBuilder.setTitle("Paramètre Internet :");
+        customBuilder.setTitle("Erreur de connexion");
         customBuilder.setIcon(R.drawable.ic_warning_violet_18dp);
 
         // Setting Dialog Message
-        customBuilder.setMessage("Vous n'avez pas accès à l'Internet. Merci de vérifier votre connexion.");
+        customBuilder.setMessage("Connexion au serveur impossible. Veuillez vérifiez votre connexion Internet et réessayer.");
 
         // On pressing Settings button
         customBuilder.setPositiveButton("Paramètres", new DialogInterface.OnClickListener() {
