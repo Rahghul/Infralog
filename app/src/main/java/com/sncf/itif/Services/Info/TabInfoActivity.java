@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
 
     ServiceInfo serviceInfo;
 
-    List<Info> infosList = new ArrayList<>();
+    List<Info> infosList = new ArrayList<Info>();
     ListView infoListView;
     CustomAdapterInfo infoAdapter = null;
 
@@ -56,6 +57,13 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
 
         if (NetworkOpt.isNetworkAvailable(getContext()) == true) {
             callServiceInfoGet();
+        }
+
+        //Hide Soft Keyboard Android if it s available
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
         super.onResume();

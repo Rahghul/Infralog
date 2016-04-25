@@ -33,19 +33,19 @@
         </activity>
         <activity
             android:name="com.sncf.itif.Services.Secteur.SecteurActivity"
-            android:label="@string/secteur_title"
+            android:label="@string/act_secteur_title"
             android:parentActivityName="com.sncf.itif.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.sncf.itif.Services.Plan.PlanActivity"
-            android:label="@string/plan_title"
+            android:label="@string/act_plan_title"
             android:parentActivityName="com.sncf.itif.Services.Secteur.SecteurActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.sncf.itif.Services.DetailPlan.DetailPlanActivity"
-            android:label="@string/detail_title"
+            android:label="@string/act_detail_plan_title"
             android:parentActivityName="com.sncf.itif.Services.Plan.PlanActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
@@ -54,14 +54,14 @@
             android:parentActivityName="com.sncf.itif.Services.PlanIDF.WebViewCartoActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.sncf.itif.Services.PlanIDF.RATPplanIDFActivity"
+            android:name=".Services.PlanIDF.RATPPlanIDFActivity"
             android:label="title Image"
-            android:parentActivityName="com.sncf.itif.Services.PlanIDF.RATPplanIDFActivity"
+            android:parentActivityName=".Services.PlanIDF.RATPPlanIDFActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.sncf.itif.Services.SavedImages.SavedImageActivity"
+            android:name=".Services.TelechargementsPlan.TelechargementsActivity"
             android:label="Plan enregistré"
-            android:parentActivityName="com.sncf.itif.Services.SavedImages.SavedImageActivity"
+            android:parentActivityName=".Services.TelechargementsPlan.TelechargementsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>

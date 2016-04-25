@@ -85,7 +85,7 @@ public class ServicePlan {
                 if(s == null){
                     return null;
                 }
-                List<Plan> foundPlans = new ArrayList<>();
+                List<Plan> foundPlans = new ArrayList<Plan>();
 
                 JSONArray data = new JSONArray(s);
                 for(int i =0; i<data.length(); i++){

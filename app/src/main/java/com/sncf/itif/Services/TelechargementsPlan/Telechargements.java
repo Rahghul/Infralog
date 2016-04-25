@@ -1,18 +1,18 @@
-package com.sncf.itif.Services.SavedImages;
+package com.sncf.itif.Services.TelechargementsPlan;
 
 import android.graphics.Bitmap;
 
 /**
  * Created by Rahghul on 15/04/2016.
  */
-public class SavedImage {
+public class Telechargements {
     private Bitmap image;
     private String title;
     private String gareName;
     private String reference;
     private String version;
 
-    public SavedImage(Bitmap image, String title, String gareName, String reference, String version) {
+    public Telechargements(Bitmap image, String title, String gareName, String reference, String version) {
         this.image = image;
         this.title = title;
         this.gareName = gareName;

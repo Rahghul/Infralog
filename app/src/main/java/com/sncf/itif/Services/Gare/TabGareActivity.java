@@ -4,13 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +23,6 @@ import com.sncf.itif.Services.Info.Info;
 import com.sncf.itif.Services.Info.ServiceInfo;
 import com.sncf.itif.Services.Localisation.GPSTracker;
 import com.sncf.itif.Services.Network.NetworkOpt;
-import com.sncf.itif.Services.SavedImages.SavedImageActivity;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 import com.sncf.itif.Services.Localisation.ServiceLocalisation;
@@ -44,7 +36,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
 
     String urlGareGet;
     ServiceGare serviceGare;
-    List<Gare> garesList = new ArrayList<>();
+    List<Gare> garesList = new ArrayList<Gare>();
     CustomAdapterGare gareAdapter = null;
     AutoCompleteTextView txtSearchGare;
 
@@ -60,7 +52,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
 
     ListView infoListView;
     CustomAdapterInfoHome infoAdapterHome = null;
-    List<Info> infosList = new ArrayList<>();
+    List<Info> infosList = new ArrayList<Info>();
     ServiceInfo serviceInfo;
 
     @Override

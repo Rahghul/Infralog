@@ -1,33 +1,22 @@
 package com.sncf.itif.Services.PlanIDF;
 
-import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.sncf.itif.Services.Network.NetworkOpt;
-import com.sncf.itif.Services.SavedImages.SavedImageActivity;
-import com.sncf.itif.Services.ServiceCallBack;
+import com.sncf.itif.Services.TelechargementsPlan.TelechargementsActivity;
 import com.sncf.itif.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ {
 
@@ -40,7 +29,7 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
    // Boolean isNetworkFail = false;
 
     ListView planIDFListView;
-    List<String> planIDFList = new ArrayList<>();
+    List<String> planIDFList = new ArrayList<String>();
     ArrayAdapter planIDFAdapter;
 
     @Override
@@ -60,7 +49,7 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Click on ratp plan
                 if (position == 0){
-                    Intent intent = new Intent(getContext(), RATPplanIDFActivity.class);
+                    Intent intent = new Intent(getContext(), RATPPlanIDFActivity.class);
                     startActivity(intent);
                     //callServicePlanIDF();
                     //mAttacher = new PhotoViewAttacher(image_carte);
@@ -76,7 +65,7 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
                 //Click on plan enregistré
                 if (position == 2) {
 
-                    Intent intent = new Intent(getContext(), SavedImageActivity.class);
+                    Intent intent = new Intent(getContext(), TelechargementsActivity.class);
                     startActivity(intent);
                 }
             }
@@ -106,6 +95,13 @@ public class TabPlanIDFActivity extends Fragment /*implements ServiceCallBack*/ 
                 mAttacher.update();
             }
         }*/
+        //Hide Soft Keyboard Android if it s available
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         super.onResume();
     }
 

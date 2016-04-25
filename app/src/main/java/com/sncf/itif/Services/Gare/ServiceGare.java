@@ -93,7 +93,7 @@ public class ServiceGare {
         if(s == null){
             return null;
         }
-        List<Gare> foundGares = new ArrayList<>();
+        List<Gare> foundGares = new ArrayList<Gare>();
 
         JSONArray data = new JSONArray(s);
         for(int i =0; i<data.length(); i++){

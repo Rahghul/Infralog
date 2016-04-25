@@ -84,7 +84,7 @@ public class ServiceInfo {
                 if(s == null){
                     return null;
                 }
-                List<Info> foundInfos = new ArrayList<>();
+                List<Info> foundInfos = new ArrayList<Info>();
 
                 JSONArray data = new JSONArray(s);
                 for(int i =0; i<data.length(); i++){

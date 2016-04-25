@@ -1,4 +1,4 @@
-package com.sncf.itif.Services.SavedImages;
+package com.sncf.itif.Services.TelechargementsPlan;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,9 +20,9 @@ import java.util.List;
 public class GridViewBitmapAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
-    private List<SavedImage> data = new ArrayList();
+    private List<Telechargements> data = new ArrayList();
 
-    public GridViewBitmapAdapter(Context context, int layoutResourceId, List<SavedImage> data) {
+    public GridViewBitmapAdapter(Context context, int layoutResourceId, List<Telechargements> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -36,7 +36,7 @@ public class GridViewBitmapAdapter extends ArrayAdapter {
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(R.layout.grid_item_saved_image_layout, parent, false);
+            row = inflater.inflate(R.layout.grid_item_telechargements_layout, parent, false);
             holder = new ViewHolder();
             holder.gareName = (TextView) row.findViewById(R.id.txt_line1);
             holder.reference = (TextView) row.findViewById(R.id.txt_line2);
@@ -48,7 +48,7 @@ public class GridViewBitmapAdapter extends ArrayAdapter {
             holder = (ViewHolder) row.getTag();
         }
 
-        SavedImage item = data.get(position);
+        Telechargements item = data.get(position);
         holder.gareName.setText(item.getGareName());
         holder.image.setImageBitmap(item.getImage());
         holder.reference.setText(item.getReference());

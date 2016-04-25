@@ -1,19 +1,13 @@
 package com.sncf.itif.Services.Secteur;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,7 +25,7 @@ import java.util.List;
 public class SecteurActivity extends AppCompatActivity implements ServiceCallBack {
 
     ServiceSecteur serviceSecteur;
-    List<Secteur> secteursList = new ArrayList<>();
+    List<Secteur> secteursList = new ArrayList<Secteur>();
     ListView secteursListView;
     CustomAdapterSecteur secteurAdapter;
 
@@ -47,10 +41,10 @@ public class SecteurActivity extends AppCompatActivity implements ServiceCallBac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_display_secteur);
+        setContentView(R.layout.activity_secteur);
 
-        getSupportActionBar().setTitle(R.string.secteur_title);
-        getSupportActionBar().setSubtitle(R.string.home_title);
+        getSupportActionBar().setTitle(R.string.act_secteur_title);
+        getSupportActionBar().setSubtitle(R.string.app_full_name);
 
 
         mContext = this;

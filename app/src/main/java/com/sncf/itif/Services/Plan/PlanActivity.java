@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ import com.sncf.itif.Services.Network.NetworkOpt;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ import java.util.List;
 public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
 
     ServicePlan servicePlan;
-    List<Plan> planList = new ArrayList<>();
+    List<Plan> planList = new ArrayList<Plan>();
 
 
     Context mContext;
@@ -42,19 +44,15 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         // Désactive le mode capture d'écran
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
 
-        setContentView(R.layout.content_display_plan);
+        setContentView(R.layout.activity_plan);
 
-        getSupportActionBar().setTitle(R.string.plan_title);
-        getSupportActionBar().setSubtitle(R.string.home_title);
-
-
-        mContext = this;
-
+        getSupportActionBar().setTitle(R.string.act_plan_title);
+        getSupportActionBar().setSubtitle(R.string.app_short_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
@@ -75,6 +73,31 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
         }
 
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.menu_plan, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_input) {
+            Toast.makeText(mContext, "Appuyez longuement sur le plan pour enregistrer. Il sera accessible pour une période de 2 semaines uniquement dans l'interface 'PLAN IDF'->'Accès au plan enregistré'. Au-delà, il faudra renouveler l'action.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+
+        }
+        return true;
+
+        //return super.onOptionsItemSelected(item);
     }
 
     public void showMessage(String title, String message) {
@@ -103,24 +126,37 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
                 gridView.setAdapter(gridAdapter);
 
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                         Plan itemPlan = (Plan) parent.getItemAtPosition(position);
-                        //Save image
-                        if (saveImageToInternalStorage(itemPlan) == false) {
-                            Toast.makeText(mContext, "Image Clicked not saved !!!", Toast.LENGTH_LONG).show();
-                        }
 
                         //Create intent
                         Intent intent = new Intent(mContext, DetailPlanActivity.class);
                         intent.putExtra("id", itemPlan.getId());
                         startActivity(intent);
-
-                                                /*intent.putExtra("version", item.getVersion());
+                        /*intent.putExtra("version", item.getVersion());
                         intent.putExtra("image", item.getImage());*/
                         //intent.putExtra("com.sncf.myapplication2.Services.Plan", item);
+                    }
 
+
+                });
+
+                gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        Plan itemPlan = (Plan) parent.getItemAtPosition(position);
+                        //Save image
+                        if (saveImageToInternalStorage(itemPlan) == false) {
+                            Toast.makeText(mContext, "Le plan n'a pas été sauvegardé proprement. A réessayer.", Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                        return true;
                     }
                 });
+
+
+
 
             } else
                 Toast.makeText(this, "La liste des secteurs est vide.", Toast.LENGTH_LONG).show();
@@ -146,16 +182,6 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-        }
-        return true;
-    }
-
 
     public boolean saveImageToInternalStorage(Plan plan) {
 
@@ -166,18 +192,27 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
             String imageName = "IMG%" + plan.getId() + "%" + gareName + "%" + plan.getReference() + "%" + plan.getVersion();
             //FileOutputStream fos = new FileOutputStream(this.getFilesDir().getAbsolutePath()+"/"+imageName);
             //Toast.makeText(mContext, imageName, Toast.LENGTH_LONG).show();
-            FileOutputStream fos = this.openFileOutput(imageName, Context.MODE_PRIVATE);
+            if(fileExistance(imageName)){
+                Toast.makeText(mContext, "Le plan existe déjà dans l'interface 'PLAN IDF'->'Accès au plan enregistré'", Toast.LENGTH_LONG).show();
+            }else{
+                FileOutputStream fos = this.openFileOutput(imageName, Context.MODE_PRIVATE);
 
-            // Writing the bitmap to the output stream
-            Bitmap image = StringToBitMap(plan.getPlan());
-            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-
+                // Writing the bitmap to the output stream
+                Bitmap image = StringToBitMap(plan.getPlan());
+                image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+                Toast.makeText(mContext, "Le plan enregistré sera accessible à l'interface 'PLAN IDF'->'Accès au plan enregistré' pendant 2 semaines.", Toast.LENGTH_LONG).show();
+            }
             return true;
         } catch (Exception e) {
             Log.e("saveToInternalStorage()", e.getMessage());
             return false;
         }
+    }
+
+    public boolean fileExistance(String fname){
+        File file = getBaseContext().getFileStreamPath(fname);
+        return file.exists();
     }
 
 }

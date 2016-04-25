@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +19,7 @@ public class CustomAdapterInfoHome extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
-    List<Info> infoList = new ArrayList<>();
+    List<Info> infoList = new ArrayList<Info>();
 
     public CustomAdapterInfoHome(Context context, List<Info> infoList) {
         super();
@@ -49,7 +48,7 @@ public class CustomAdapterInfoHome extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.one_item_list_info_home, null);
+            convertView = layoutInflater.inflate(R.layout.one_item_list_info_brief, null);
             holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             //holder.tvContext = (TextView) convertView.findViewById(R.id.tvContext);
             holder.tvDateTime = (TextView) convertView.findViewById(R.id.tvDateTime);

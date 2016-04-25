@@ -81,7 +81,7 @@ public class ServiceSecteur {
                 if(s == null){
                     return null;
                 }
-                List<Secteur> foundSecteurs = new ArrayList<>();
+                List<Secteur> foundSecteurs = new ArrayList<Secteur>();
 
                 JSONArray data = new JSONArray(s);
                 for(int i =0; i<data.length(); i++){

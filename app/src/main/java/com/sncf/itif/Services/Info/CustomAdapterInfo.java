@@ -19,7 +19,7 @@ public class CustomAdapterInfo extends BaseAdapter {
 
     Context context;
     LayoutInflater layoutInflater;
-    List<Info> infoList = new ArrayList<>();
+    List<Info> infoList = new ArrayList<Info>();
 
     public CustomAdapterInfo(Context context, List<Info> infoList) {
         super();
