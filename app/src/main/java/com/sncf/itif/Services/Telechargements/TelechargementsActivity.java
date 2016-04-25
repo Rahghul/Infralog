@@ -1,4 +1,4 @@
-package com.sncf.itif.Services.TelechargementsPlan;
+package com.sncf.itif.Services.Telechargements;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -109,7 +109,7 @@ public class TelechargementsActivity extends AppCompatActivity {
             long nowTime = nowDate.getTime();
             // si le délai depasse, on supprime le fichier
             //Toast.makeText(this, "res : "+((nowTime - lastTime)/1000) + " sec", Toast.LENGTH_LONG).show();
-            if (nowTime - lastTime > 60 * 60 * 1000) { //=1 h
+            if (nowTime - lastTime > R.integer.temps_sauvegarde_telechargements) { //=1 h
                 filePath.delete();
 
             } else {

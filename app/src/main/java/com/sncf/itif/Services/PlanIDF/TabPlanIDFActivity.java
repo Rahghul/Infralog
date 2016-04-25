@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.sncf.itif.Services.TelechargementsPlan.TelechargementsActivity;
+import com.sncf.itif.Services.Telechargements.TelechargementsActivity;
 import com.sncf.itif.R;
 
 import java.util.ArrayList;

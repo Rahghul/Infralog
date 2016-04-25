@@ -1,4 +1,4 @@
-package com.sncf.itif.Services.TelechargementsPlan;
+package com.sncf.itif.Services.Telechargements;
 
 import android.graphics.Bitmap;
 

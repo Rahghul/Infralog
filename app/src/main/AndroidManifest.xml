@@ -59,9 +59,9 @@
             android:parentActivityName=".Services.PlanIDF.RATPPlanIDFActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Services.TelechargementsPlan.TelechargementsActivity"
+            android:name=".Services.Telechargements.TelechargementsActivity"
             android:label="Plan enregistré"
-            android:parentActivityName=".Services.TelechargementsPlan.TelechargementsActivity"
+            android:parentActivityName=".Services.Telechargements.TelechargementsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
     </application>
