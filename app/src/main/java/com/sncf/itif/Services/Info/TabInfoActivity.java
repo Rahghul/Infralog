@@ -8,13 +8,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,6 +38,9 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
     ListView infoListView;
     CustomAdapterInfo infoAdapter = null;
 
+    //Refresh
+    SwipeRefreshLayout swipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_info, container, false);
@@ -44,12 +50,54 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         infoAdapter = new CustomAdapterInfo(getContext(), infosList);
         infoListView.setAdapter(infoAdapter);
 
-
-//        if (isNetworkAvailable() == true) {
-//            callServiceInfoGet();
-//        }
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        // sets the colors used in the refresh animation
+        swipeLayout.setColorSchemeResources(R.color.color1, R.color.color2,
+                R.color.color3, R.color.color4_1, R.color.color4_2);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        //Refresh when we swipe layout
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeLayout.setRefreshing(false);
+                        onResume();
+                    }
+                }, 1000);
+            }
+        });
+
+        //enable refresh button only if first element of Info listView is visible
+        infoListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                boolean enable = false;
+                if (infoListView != null && infoListView.getChildCount() > 0) {
+                    // check if the first item of the list is visible
+                    boolean firstItemVisible = infoListView.getFirstVisiblePosition() == 0;
+                    // check if the top of the first item is visible
+                    boolean topOfFirstItemVisible = infoListView.getChildAt(0).getTop() == 0;
+                    // enabling or disabling the refresh layout
+                    enable = firstItemVisible && topOfFirstItemVisible;
+                }
+                swipeLayout.setEnabled(enable);
+            }
+        });
+        super.onStart();
     }
 
     @Override
@@ -62,7 +110,7 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         //Hide Soft Keyboard Android if it s available
         View view = getActivity().getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
@@ -108,7 +156,6 @@ public class TabInfoActivity extends Fragment implements ServiceCallBack {
         builder.setMessage(message);
         builder.show();
     }
-
 
 
 }

@@ -4,16 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/infoListView"
-        android:divider="@color/color1"
-        android:dividerHeight="2dp"
-        android:listSelector="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"/>
+        android:layout_height="match_parent">
 
+        <ListView
+            android:id="@+id/infoListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/color1"
+            android:dividerHeight="2dp"
+            android:listSelector="@android:color/transparent" />
 
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

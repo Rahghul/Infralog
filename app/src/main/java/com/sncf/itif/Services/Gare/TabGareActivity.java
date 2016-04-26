@@ -1,17 +1,18 @@
 package com.sncf.itif.Services.Gare;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TabGareActivity extends Fragment implements ServiceCallBack {
+public class TabGareActivity extends Fragment implements ServiceCallBack{
 
     String urlGareGet;
     ServiceGare serviceGare;
@@ -41,12 +42,13 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     AutoCompleteTextView txtSearchGare;
 
     Button btnLocaliser;
+    TextView display_closest_gare;
+    Boolean my_position_clicked = false;
+
     Gare selectedGareFromSearch;
 
     GPSTracker gps;
     String nearestGare;
-    Double latitude;
-    Double longitude;
 
     ServiceLocalisation serviceLocalisation;
 
@@ -55,12 +57,14 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
     List<Info> infosList = new ArrayList<Info>();
     ServiceInfo serviceInfo;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_gare, container, false);
         urlGareGet = getActivity().getResources().getString(R.string.dns) + getActivity().getResources().getString(R.string.url_gare);
 
-
+        display_closest_gare = (TextView) view.findViewById(R.id.tv_nearest_gare);
         txtSearchGare = (AutoCompleteTextView) view.findViewById(R.id.txt_search_gare);
 
         //Bouton invisible derrière image localiseur et le texte "Ma position"
@@ -70,6 +74,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         infoListView = (ListView) view.findViewById(R.id.infoInGareListView);
         infoAdapterHome = new CustomAdapterInfoHome(getContext(), infosList);
         infoListView.setAdapter(infoAdapterHome);
+
 
         return view;
     }
@@ -113,31 +118,8 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         btnLocaliser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gps = new GPSTracker(getContext());
-                // check if GPS enabled
-                if (gps.canGetLocation()) {
-                    latitude = gps.getLatitude();
-                    longitude = gps.getLongitude();
-                    Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
-                    if (latitude != 0.0 && longitude != 0.0) {
-/*                        if (garesList.size() < 10) {
-                                callServiceGareGet();
-                        }*/
-
-                        if (NetworkOpt.isNetworkAvailable(getContext()) == false) {
-                            NetworkOpt.showNetworkAlert(getContext());
-                            return;
-                        } else {
-                            callServiceNearestGare();
-                        }
-                    }
-                    //Toast.makeText(getContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                } else {
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert(getContext());
-                }
+                my_position_clicked = true;
+                LocateUser();
             }
         });
 
@@ -154,6 +136,8 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
             // Call Gare service and Info service to update the content
             callServiceGareGet();
             callServiceInfoGet();
+            my_position_clicked = false;
+            LocateUser();
         }
 
         super.onResume();
@@ -190,26 +174,35 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                         .replaceAll(regex, "").replaceAll(regex2, " ").replaceAll(regex3, "SAINT").replaceAll(regex4, "SOUS");
 
                 //Affichage de la gare trouvée
-                Toast.makeText(getContext(), "Gare trouvée: *" + nearestGare_Modif + "*", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getContext(), "Gare trouvée: *" + nearestGare_Modif + "*", Toast.LENGTH_SHORT).show();
 
                 // Dans un premier temps, on vérifie si la gare localisé est égale(aux lettres près) dans notre base de gare.
                 for (Gare g : garesList) {
                     String g_name = g.getName().toUpperCase().trim().replaceAll(regex, "").replaceAll(regex2, " ");
                     if (nearestGare_Modif.equals(g_name)) {
-                        showPositionAlert(getContext(), g);
+                        //  showPositionAlert(getContext(), g);
+                        if (my_position_clicked == false)
+                            display_closest_gare.setText(g.getName());
+                        else
+                            goToSecteurActivity(g);
                     }
                 }
                 // Dans un second temps, on vérifie si la gare localisé est contenu dans notre base de gare.
                 for (Gare g : garesList) {
                     String g_name = g.getName().toUpperCase().trim().replaceAll(regex, "").replaceAll(regex2, " ");
                     if (nearestGare_Modif.contains(g_name)) {
-                        showPositionAlert(getContext(), g);
+                        //  showPositionAlert(getContext(), g);
+                        if (my_position_clicked == false)
+                            display_closest_gare.setText(g.getName());
+                        else
+                            goToSecteurActivity(g);
                     }
                 }
                 //showMessage("Nearest Gare", nearestGare);
-            } else
+            } else {
                 Toast.makeText(getContext(), "Aucune gare SNCF détectée aux alentours de 500m.", Toast.LENGTH_LONG).show();
-
+                display_closest_gare.setText("Aucune à proximité");
+            }
         }
 
         if (id_srv == 3) {
@@ -222,7 +215,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
                 infoAdapterHome.notifyDataSetChanged();
             } else
                 Toast.makeText(getContext(), "La liste des mises à jours est vide.", Toast.LENGTH_LONG).show();
-    }
+        }
     }
 
     @Override
@@ -235,11 +228,11 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         serviceGare.enquiry(urlGareGet);
     }
 
-    public void callServiceNearestGare() {
+    public void callServiceNearestGare(Double lat, Double lon) {
         serviceLocalisation = new ServiceLocalisation(this, getContext(), "getNearestStation");
         String url_half_1 = getActivity().getResources().getString(R.string.url_navitia_half_1);
         String url_half_2 = getActivity().getResources().getString(R.string.url_navitia_half_2);
-        serviceLocalisation.enquiry(url_half_1 + longitude + ";" + latitude + url_half_2);
+        serviceLocalisation.enquiry(url_half_1 + lon + ";" + lat + url_half_2);
     }
 
     public void callServiceInfoGet() {
@@ -256,7 +249,7 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         builder.show();
     }
 
-    public void showPositionAlert(final Context mContext, final Gare gare) {
+    /*public void showPositionAlert(final Context mContext, final Gare gare) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
@@ -282,12 +275,42 @@ public class TabGareActivity extends Fragment implements ServiceCallBack {
         // Showing Alert Message
         alertDialog.show();
     }
+*/
 
-
-    void goToSecteurActivity(Gare gare){
+    void goToSecteurActivity(Gare gare) {
         Intent intent = new Intent(getContext(), SecteurActivity.class);
         intent.putExtra("SelectedGareId", gare.getId());
         intent.putExtra("SelectedGareName", gare.getName());
         startActivityForResult(intent, 1);
     }
+
+    void LocateUser() {
+        Double latitude;
+        Double longitude;
+        gps = new GPSTracker(getContext());
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            Log.d("------->Coordinates GPS", "Lat: " + latitude + " Lon: " + longitude);
+            if (latitude != 0.0 && longitude != 0.0) {
+                if (NetworkOpt.isNetworkAvailable(getContext()) == false) {
+                    NetworkOpt.showNetworkAlert(getContext());
+                    return;
+                } else {
+                    callServiceNearestGare(latitude, longitude);
+                }
+            }
+            //Toast.makeText(getContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            display_closest_gare.setText("Erreur position !");
+            if (my_position_clicked == true)
+                gps.showSettingsAlert(getContext());
+        }
+    }
+
+
 }

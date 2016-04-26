@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sncf.itif.Services.DetailPlan.DetailPlanActivity;
@@ -41,17 +42,19 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     Long secteurId;
     String gareName;
 
+    TextView display_gareName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
         // Désactive le mode capture d'écran
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+//                WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_plan);
 
-        getSupportActionBar().setTitle(R.string.act_plan_title);
+        getSupportActionBar().setTitle(getResources().getString(R.string.act_plan_title));
         getSupportActionBar().setSubtitle(R.string.app_short_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -59,7 +62,9 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
         secteurId = intent.getLongExtra("SelectedSecteurId", -1);
         gareName = intent.getStringExtra("SelectedGareName");
 
-        //showMessage("Secteur Id", secteurId.toString());
+        display_gareName = (TextView) findViewById(R.id.tv_gare_name);
+        display_gareName.setText(gareName);
+
         gridView = (GridView) findViewById(R.id.gridView);
 
     }
@@ -76,7 +81,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_plan, menu);
         return super.onCreateOptionsMenu(menu);
@@ -156,8 +161,6 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
                 });
 
 
-
-
             } else
                 Toast.makeText(this, "La liste des secteurs est vide.", Toast.LENGTH_LONG).show();
 
@@ -182,7 +185,6 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
     }
 
 
-
     public boolean saveImageToInternalStorage(Plan plan) {
 
         try {
@@ -192,9 +194,9 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
             String imageName = "IMG%" + plan.getId() + "%" + gareName + "%" + plan.getReference() + "%" + plan.getVersion();
             //FileOutputStream fos = new FileOutputStream(this.getFilesDir().getAbsolutePath()+"/"+imageName);
             //Toast.makeText(mContext, imageName, Toast.LENGTH_LONG).show();
-            if(fileExistance(imageName)){
+            if (fileExistance(imageName)) {
                 Toast.makeText(mContext, "Le plan existe déjà dans l'interface 'PLAN IDF'->'Accès au plan enregistré'", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 FileOutputStream fos = this.openFileOutput(imageName, Context.MODE_PRIVATE);
 
                 // Writing the bitmap to the output stream
@@ -210,7 +212,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
         }
     }
 
-    public boolean fileExistance(String fname){
+    public boolean fileExistance(String fname) {
         File file = getBaseContext().getFileStreamPath(fname);
         return file.exists();
     }
