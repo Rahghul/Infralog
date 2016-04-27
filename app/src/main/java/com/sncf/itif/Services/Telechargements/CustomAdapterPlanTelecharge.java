@@ -27,22 +27,30 @@ import java.util.Map;
 public class CustomAdapterPlanTelecharge extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    List<Telechargements> downloadList = new ArrayList<Telechargements>();
-    HashMap<Integer, String> listSingleGareName = new HashMap();
+    HashMap<Integer, String> hashSupprimeDoublonsGareName = new HashMap();
     List<Telechargements> listImageOfSameGare;
     GridViewTelechargementsAdapter gridAdapter;
-    HashMap<Integer, List<Telechargements>> imageMap = new HashMap();
+    HashMap<Integer, List<Telechargements>> hashPlansTelecharge = new HashMap();
     int i = 0;
 
     public CustomAdapterPlanTelecharge(Context context, List<Telechargements> downloadPlan) {
         super();
         this.context = context;
+        //Ici on supprime les doublons des noms de gares. Au final, hashSupprimeDoublonsGareName
+        //contient uniquement les noms de gares sans doublons
         for (Telechargements t : downloadPlan) {
-            if (!listSingleGareName.containsValue(t.getGareName())) {
-                listSingleGareName.put(i++, t.getGareName());
+            if (!hashSupprimeDoublonsGareName.containsValue(t.getGareName())) {
+                hashSupprimeDoublonsGareName.put(i++, t.getGareName());
             }
         }
-        for (Map.Entry<Integer, String> entry : listSingleGareName.entrySet()) {
+
+        //On parcourt foreach de hashSupprimeDoublonsGareName pour affecter une clé unique
+        //à chaque gare. Exemple : Garges, Plan1 ; Garges,Plan2 ; Noisy,Plan4
+        //               Donc, List<Garges, Plan1 ; Garges,Plan2> -> key 1
+        //                      List<Noisy,Plan4> -> key 2
+        // Le resultat se trouve dans "hashPlansTelecharge"
+        //Au final, en fonction de la clé, on attribuera la vue dans la listView(Voir ci dessous)
+        for (Map.Entry<Integer, String> entry : hashSupprimeDoublonsGareName.entrySet()) {
             Integer key = entry.getKey();
             String gareName = entry.getValue();
             listImageOfSameGare = new ArrayList<Telechargements>();
@@ -52,32 +60,22 @@ public class CustomAdapterPlanTelecharge extends BaseAdapter {
                 }
             }
             if (!listImageOfSameGare.isEmpty()) {
-                imageMap.put(key, listImageOfSameGare);
+                hashPlansTelecharge.put(key, listImageOfSameGare);
             }
 
         }
 
-        this.downloadList = downloadPlan;
         layoutInflater = LayoutInflater.from(context);
-    }
-
-    public static Object getKeyFromValue(Map hm, Object value) {
-        for (Object o : hm.keySet()) {
-            if (hm.get(o).equals(value)) {
-                return o;
-            }
-        }
-        return null;
     }
 
     @Override
     public int getCount() {
-        return listSingleGareName.size();
+        return hashSupprimeDoublonsGareName.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listSingleGareName.get(position);
+        return hashSupprimeDoublonsGareName.get(position);
     }
 
     @Override
@@ -94,18 +92,20 @@ public class CustomAdapterPlanTelecharge extends BaseAdapter {
             holder.tvGareName = (TextView) convertView.findViewById(R.id.tvGareName);
             holder.gridView = (MyGridView) convertView.findViewById(R.id.gridViewTelecharge);
 
+            //Simple gridView click event
             holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     Telechargements itemImage = (Telechargements) parent.getItemAtPosition(position);
 
 
-                    //Create intent
+                    //goto page DetailPlanActivity
                     Intent intent = new Intent(context, DetailPlanActivity.class);
                     intent.putExtra("SavedImageTitle", itemImage.getTitle());
                     context.startActivity(intent);
                 }
             });
 
+            //Long Click GridView event
             holder.gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,8 +123,9 @@ public class CustomAdapterPlanTelecharge extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvGareName.setText(listSingleGareName.get(position));
-        gridAdapter = new GridViewTelechargementsAdapter(context, R.layout.grid_item_plan_layout, imageMap.get((position)));
+        holder.tvGareName.setText(hashSupprimeDoublonsGareName.get(position));
+        //En focntion de la clé, on retrouve l'ensemble d'images correspondant pour regrouper.
+        gridAdapter = new GridViewTelechargementsAdapter(context, R.layout.grid_item_plan_layout, hashPlansTelecharge.get((position)));
         holder.gridView.setAdapter(gridAdapter);
 
 
@@ -142,6 +143,8 @@ public class CustomAdapterPlanTelecharge extends BaseAdapter {
 
     void deleteImageFromInternalStorage(String filename, Context mContext) {
         File filePath = mContext.getFileStreamPath(filename);
+
+        //Delete file from internal storage
         filePath.delete();
 
         //Kill current activity to update a new list of plans.

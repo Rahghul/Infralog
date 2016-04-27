@@ -35,7 +35,8 @@ public class TelechargementsActivity extends AppCompatActivity {
 //    GridViewTelechargementsAdapter gridAdapter;
     List<Telechargements> planList = new ArrayList<Telechargements>();
 
-    static int finalDay = 14;
+    //Le jour autorisé avant disparition du plan automatiquement
+    static int finalDay = R.integer.jours_autorise;
     int remainingDays;
 
     Context mContext;
@@ -109,9 +110,11 @@ public class TelechargementsActivity extends AppCompatActivity {
                 filePath.delete();
 
             } else {
+                // en fonction du temps parcouru, on défini le temps restant.
                 int durationInDays = (int)(durationInMillis / (1000*60*60*24));
                 remainingDays = finalDay - durationInDays;
                 //Log.d("***",durationInMillis + " " + durationInDays + " " + remainingDays);
+
                 //sinon on retourne l'image
                 FileInputStream fi = new FileInputStream(filePath);
                 thumbnail = BitmapFactory.decodeStream(fi);

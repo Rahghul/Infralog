@@ -8,7 +8,7 @@
     <string name="act_detail_plan_title">Plan en détail</string>
     <string name="act_telechargements_title">Téléchargements</string>
 
-
+    <item type="integer" name="jours_autorise">14</item>
     <item type="integer" name="temps_sauvegarde_telechargements">30</item>
 
     <string name="url_carto_metro">http://carto.metro.free.fr/cartes/rer-idf/</string>

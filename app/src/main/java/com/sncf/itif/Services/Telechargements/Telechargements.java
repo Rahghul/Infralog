@@ -19,6 +19,7 @@ public class Telechargements {
         this.gareName = gareName;
         this.reference = reference;
         this.version = version;
+        //Le temps restant avant l'image telechargé supprime automatiquement
         this.remainingDays = remainingDays;
     }
 
