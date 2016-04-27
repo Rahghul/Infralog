@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -62,7 +61,7 @@ public class PlanActivity extends AppCompatActivity implements ServiceCallBack {
         secteurId = intent.getLongExtra("SelectedSecteurId", -1);
         gareName = intent.getStringExtra("SelectedGareName");
 
-        display_gareName = (TextView) findViewById(R.id.tv_gare_name);
+        display_gareName = (TextView) findViewById(R.id.tvGareName);
         display_gareName.setText(gareName);
 
         gridView = (GridView) findViewById(R.id.gridView);

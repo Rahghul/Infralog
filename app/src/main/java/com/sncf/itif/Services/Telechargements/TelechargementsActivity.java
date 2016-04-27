@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sncf.itif.R;
@@ -30,11 +31,17 @@ import java.util.List;
  * Created by Rahghul on 15/04/2016.
  */
 public class TelechargementsActivity extends AppCompatActivity {
-    GridView gridView;
-    GridViewBitmapAdapter gridAdapter;
+    //    GridView gridView;
+//    GridViewTelechargementsAdapter gridAdapter;
     List<Telechargements> planList = new ArrayList<Telechargements>();
 
+    static int finalDay = 14;
+    int remainingDays;
+
     Context mContext;
+
+    ListView listPlansTelecharges;
+    CustomAdapterPlanTelecharge customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,7 @@ public class TelechargementsActivity extends AppCompatActivity {
         // Désactive le mode capture d'écran
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
 //                WindowManager.LayoutParams.FLAG_SECURE);
-        setContentView(R.layout.activity_plan);
+        setContentView(R.layout.activity_telechargements);
 
         getSupportActionBar().setTitle(R.string.act_telechargements_title);
         getSupportActionBar().setSubtitle(R.string.app_short_name);
@@ -53,34 +60,19 @@ public class TelechargementsActivity extends AppCompatActivity {
         //list files names of data/data/package Name/Files from internal storage
         listFiles();
 
-        gridView = (GridView) findViewById(R.id.gridView);
-        gridAdapter = new GridViewBitmapAdapter(this, R.layout.grid_item_plan_layout, planList);
-        gridView.setAdapter(gridAdapter);
+//        gridView = (GridView) findViewById(R.id.gridView);
+//        gridAdapter = new GridViewTelechargementsAdapter(this, R.layout.grid_item_plan_layout, planList);
+//        gridView.setAdapter(gridAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Telechargements itemImage = (Telechargements) parent.getItemAtPosition(position);
+        listPlansTelecharges = (ListView) findViewById(R.id.planListView);
+        customAdapter = new CustomAdapterPlanTelecharge(mContext, planList);
+        listPlansTelecharges.setAdapter(customAdapter);
+    }
 
+    @Override
+    protected void onStart() {
 
-                //Create intent
-                Intent intent = new Intent(mContext, DetailPlanActivity.class);
-                intent.putExtra("SavedImageTitle", itemImage.getTitle());
-                startActivity(intent);
-            }
-        });
-
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Telechargements itemImage = (Telechargements) parent.getItemAtPosition(position);
-
-                //Delete Image
-                confirmDeleteAlert(mContext, itemImage);
-
-                return true;
-            }
-        });
-
+        super.onStart();
     }
 
     void listFiles() {
@@ -93,7 +85,8 @@ public class TelechargementsActivity extends AppCompatActivity {
                 //l'image doit etre non nulle puisque si le temps depasse l'image sera supprimé definitivement
                 if (bm != null) {
                     String[] retval = strFile.split("%");
-                    planList.add(new Telechargements(bm, strFile, retval[2], retval[3], retval[4]));
+
+                    planList.add(new Telechargements(bm, strFile, retval[2], retval[3], retval[4], remainingDays));
                 }
             }
         }
@@ -109,12 +102,16 @@ public class TelechargementsActivity extends AppCompatActivity {
             long lastTime = filePath.lastModified();
             Date nowDate = new Date();
             long nowTime = nowDate.getTime();
+            long durationInMillis;
             // si le délai depasse, on supprime le fichier
-            //Toast.makeText(this, "res : "+((nowTime - lastTime)/1000) + " sec", Toast.LENGTH_LONG).show();
-            if (nowTime - lastTime > R.integer.temps_sauvegarde_telechargements) { //=1 h
+            //Toast.makeText(this, "res : " + ((nowTime - lastTime) / 1000) + " sec", Toast.LENGTH_LONG).show();
+            if ((durationInMillis = nowTime - lastTime) > getResources().getInteger(R.integer.temps_sauvegarde_telechargements) * 1000 * 60) { //=30 min
                 filePath.delete();
 
             } else {
+                int durationInDays = (int)(durationInMillis / (1000*60*60*24));
+                remainingDays = finalDay - durationInDays;
+                //Log.d("***",durationInMillis + " " + durationInDays + " " + remainingDays);
                 //sinon on retourne l'image
                 FileInputStream fi = new FileInputStream(filePath);
                 thumbnail = BitmapFactory.decodeStream(fi);
@@ -126,40 +123,6 @@ public class TelechargementsActivity extends AppCompatActivity {
         return thumbnail;
     }
 
-    void deleteImageFromInternalStorage(String filename) {
-        File filePath = this.getFileStreamPath(filename);
-        filePath.delete();
-//        Toast.makeText(mContext, "Le plan est supprimé.", Toast.LENGTH_LONG).show();
-        listFiles();
-        gridAdapter.notifyDataSetChanged();
-    }
-
-    public void confirmDeleteAlert(final Context mContext, final Telechargements itemImage) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-
-        // Setting Dialog Title
-        alertDialog.setTitle("Supprimer");
-
-        // Setting Dialog Message
-        alertDialog.setMessage("Le plan sélectionné va être supprimé.");
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                deleteImageFromInternalStorage(itemImage.getTitle());
-            }
-        });
-
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

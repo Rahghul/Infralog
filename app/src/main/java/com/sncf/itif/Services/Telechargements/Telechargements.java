@@ -11,13 +11,15 @@ public class Telechargements {
     private String gareName;
     private String reference;
     private String version;
+    private int remainingDays;
 
-    public Telechargements(Bitmap image, String title, String gareName, String reference, String version) {
+    public Telechargements(Bitmap image, String title, String gareName, String reference, String version, int remainingDays) {
         this.image = image;
         this.title = title;
         this.gareName = gareName;
         this.reference = reference;
         this.version = version;
+        this.remainingDays = remainingDays;
     }
 
     public String getGareName() {
@@ -58,5 +60,24 @@ public class Telechargements {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getRemainingDays() {
+        return remainingDays;
+    }
+
+    public void setRemainingDays(int remainingDays) {
+        this.remainingDays = remainingDays;
+    }
+
+    @Override
+    public String toString() {
+        return "Telechargements{" +
+                "remainingDays=" + remainingDays +
+                ", version='" + version + '\'' +
+                ", reference='" + reference + '\'' +
+                ", gareName='" + gareName + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 }
