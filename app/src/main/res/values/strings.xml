@@ -1,36 +1,38 @@
 <resources>
-    <string name="app_name">PLAS</string>
-    <string name="app_full_name">Particularités Locales - Agent Sécurité</string>
-    <string name="app_short_name">Particularités Locales</string>
-    <string name="app_sub_title"> Infralog Travaux Ile de France</string>
-    <string name="act_secteur_title">Secteurs</string>
-    <string name="act_plan_title">Plans</string>
-    <string name="act_detail_plan_title">Plan en détail</string>
-    <string name="act_telechargements_title">Téléchargements</string>
+    <string name="global_app_name">PLAS</string>
+    <string name="main_act_tv_full_title">Particularités Locales - Agent Sécurité</string>
+    <string name="global_tv_short_title">Particularités Locales</string>
+    <string name="main_act_tv_sub_title"> Infralog Travaux Ile de France</string>
+    <string name="act_secteur_tv_title">Secteurs</string>
+    <string name="act_plan_tv_title">Plans</string>
+    <string name="act_plan_viewer_tv_title">Plan en détail</string>
+    <string name="act_telechargement_tv_title">Téléchargements</string>
 
-    <item type="integer" name="jours_autorise">14</item>
-    <item type="integer" name="temps_sauvegarde_telechargements">30</item>
+    <item name="act_telechargement_nb_jrs_autorise_sauvegarde" type="integer">14</item>
 
-    <string name="url_carto_metro">http://carto.metro.free.fr/cartes/rer-idf/</string>
+    <string name="act_carto_metro_api_url">http://carto.metro.free.fr/cartes/rer-idf/</string>
 
-    <string name="action_a_propos">À propos</string>
-    <string name="action_input">Ajouter</string>
-    <string name="action_delete">Supprimer</string>
+    <string name="main_act_menu_action_a_propos">À propos</string>
+    <string name="act_plan_menu_action_input">Ajouter</string>
+    <string name="act_telechargement_menu_action_delete">Supprimer</string>
 
-    <string name="dns">http://itif.cloudapp.net/</string>
+    <string name="act_about_us_tv_context">L\'Infralog Travaux Ile de France dite ITIF, est un établissement logistique de la branche infrastructure de SNCF. \n \nParticularités Locales - Agent Sécurité dite PLAS, est une application mobile conçue par l\'ITIF et qui offre principalement la possibilité aux agents de sécurité de consulter à distance les particularités locales des gares SNCF.</string>
+
+
+    <string name="global_server_endpoint">http://itif.cloudapp.net/</string>
     <!--<string name="dns">http://10.0.3.2:8080/</string>-->
 
-    <string name="url_gare">sncf/rest/gare/</string>
-    <string name="url_gare_one_query_id">sncf/rest/gare/</string>
+    <string name="global_server_url_gare">sncf/rest/gare/</string>
+    <string name="global_server_url_gare_one_query_id">sncf/rest/gare/</string>
 
-    <string name="url_secteur">sncf/rest/secteur/</string>
+    <string name="global_server_url_secteur">sncf/rest/secteur/</string>
 
-    <string name="url_divers_img_IDF">sncf/rest/divers/CarteIDF</string>
+    <string name="global_server_url_divers_img_IDF">sncf/rest/divers/CarteIDF</string>
 
-    <string name="url_plan_detail_by_id">sncf/rest/carte/</string>
+    <string name="global_server_url_plan_detail_by_id">sncf/rest/carte/</string>
 
-    <string name="url_info">sncf/rest/info</string>
+    <string name="global_server_url_info">sncf/rest/info</string>
 
-    <string name="url_navitia_half_1">https://api.navitia.io/v1/coverage/fr-idf/coords/</string>
-    <string name="url_navitia_half_2">/physical_modes/physical_mode:RapidTransit/stop_points?distance=600</string>
+    <string name="act_tab_gare_api_url_navitia_1">https://api.navitia.io/v1/coverage/fr-idf/coords/</string>
+    <string name="act_tab_gare_api_url_navitia_2">/physical_modes/physical_mode:RapidTransit/stop_points?distance=600</string>
 </resources>

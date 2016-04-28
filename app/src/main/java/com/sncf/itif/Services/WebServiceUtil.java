@@ -1,12 +1,7 @@
 package com.sncf.itif.Services;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Base64;
 import android.util.Log;
-
-import com.sncf.itif.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

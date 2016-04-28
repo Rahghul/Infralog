@@ -5,64 +5,66 @@
     <!-- Location PERMISSION (GPS & Nework) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--Droit d'accès à l'Internet-->
+    <!-- Droit d'accès à l'Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--Poiur connaitre la disponibilité de la connexion internet-->
+    <!-- Poiur connaitre la disponibilité de la connexion internet -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-
         android:largeHeap="true"
-        android:hardwareAccelerated="false">
-        <!-- two above parameters added to solve the problem of display large image-->
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- two above parameters added to solve the problem of display large image -->
 
         <activity
-            android:name="com.sncf.itif.MainActivity"
+            android:name=".Main.MainActivity"
+            android:label="@string/global_app_name"
             android:screenOrientation="portrait"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sncf.itif.Services.Secteur.SecteurActivity"
-            android:label="@string/act_secteur_title"
-            android:parentActivityName="com.sncf.itif.MainActivity"
+            android:name=".Services.Secteur.ActSecteur"
+            android:label="@string/act_secteur_tv_title"
+            android:parentActivityName=".Main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.sncf.itif.Services.Plan.PlanActivity"
-            android:label="@string/act_plan_title"
-            android:parentActivityName="com.sncf.itif.Services.Secteur.SecteurActivity"
+            android:name=".Services.Plan.ActPlan"
+            android:label="@string/act_plan_tv_title"
+            android:parentActivityName=".Services.Secteur.ActSecteur"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name="com.sncf.itif.Services.DetailPlan.DetailPlanActivity"
-            android:label="@string/act_detail_plan_title"
-            android:parentActivityName="com.sncf.itif.Services.Plan.PlanActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".Services.PlanViewer.ActPlanViewer"
+            android:label="@string/act_plan_viewer_tv_title"
+            android:parentActivityName=".Services.Plan.ActPlan"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.sncf.itif.Services.PlanIDF.WebViewCartoActivity"
+            android:name=".Services.PlanIDF.ActCartoMetro"
             android:label="title web"
-            android:parentActivityName="com.sncf.itif.Services.PlanIDF.WebViewCartoActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".Services.PlanIDF.ActCartoMetro"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Services.PlanIDF.RATPPlanIDFActivity"
+            android:name=".Services.PlanIDF.ActRatpPlan"
             android:label="title Image"
-            android:parentActivityName=".Services.PlanIDF.RATPPlanIDFActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".Services.PlanIDF.ActRatpPlan"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Services.Telechargements.TelechargementsActivity"
+            android:name=".Services.PlanIDF.Telechargement.ActTelechargement"
             android:label="Plan enregistré"
-            android:parentActivityName=".Services.Telechargements.TelechargementsActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:parentActivityName=".Services.PlanIDF.Telechargement.ActTelechargement"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Menu.ActAboutUs"></activity>
     </application>
 
 </manifest>

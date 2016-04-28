@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/back_with_boarder"
+        android:padding="15dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/txt_search_gare"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/back_with_boarder"
+            android:completionThreshold="2"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:hint="Rechercher une gare ?"
+            android:inputType="textCapWords"
+            android:nestedScrollingEnabled="true"
+            android:paddingStart="5dp"
+            android:singleLine="true"
+            android:textColor="@color/color3" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_search_gare"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <ImageView
+            android:id="@+id/img_localiser"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/view"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:drawingCacheQuality="high"
+            android:src="@drawable/btn_localiser" />
+
+        <TextView
+            android:id="@+id/tv_ma_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/img_localiser"
+            android:layout_marginStart="26dp"
+            android:layout_toEndOf="@+id/img_localiser"
+            android:text="La gare plus proche :"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/color1"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/tv_nearest_gare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_localiser"
+            android:layout_alignStart="@+id/tv_ma_position"
+            android:layout_marginLeft="15dp"
+            android:text="NULL"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/color3"
+            android:textSize="15dp" />
+
+
+        <Button
+            android:id="@+id/btn_localiser"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/tv_nearest_gare"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/img_localiser"
+            android:background="@android:color/transparent" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/btn_refresh"
+            android:src="@drawable/ic_refresh_violet_18dp"
+            android:layout_alignBottom="@+id/tv_nearest_gare"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginBottom="17dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/back_with_boarder"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Les dernières mises à jours * :"
+            android:textColor="@color/color1"
+            android:textSize="17dp" />
+
+        <ListView
+            android:id="@+id/infoInGareListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/color1"
+            android:dividerHeight="2dp"
+            android:listSelector="@android:color/transparent" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="* plus de détails dans la rubrique infos"
+        android:textColor="@color/color1" />
+
+</RelativeLayout>
