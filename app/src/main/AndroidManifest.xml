@@ -52,17 +52,17 @@
         <activity
             android:name=".Services.PlanIDF.ActCartoMetro"
             android:label="title web"
-            android:parentActivityName=".Services.PlanIDF.ActCartoMetro"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".Main.MainActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Services.PlanIDF.ActRatpPlan"
             android:label="title Image"
-            android:parentActivityName=".Services.PlanIDF.ActRatpPlan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".Main.MainActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Services.PlanIDF.Telechargement.ActTelechargement"
             android:label="Plan enregistré"
-            android:parentActivityName=".Services.PlanIDF.Telechargement.ActTelechargement"
+            android:parentActivityName=".Main.MainActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".Menu.ActAboutUs"></activity>
     </application>

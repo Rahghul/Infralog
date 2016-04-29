@@ -7,6 +7,8 @@
     <string name="act_plan_tv_title">Plans</string>
     <string name="act_plan_viewer_tv_title">Plan en détail</string>
     <string name="act_telechargement_tv_title">Téléchargements</string>
+    <string name="act_ratp_plan_tv_title">Plan RER Ile de France</string>
+    <string name="act_carto_metro_tv_title">Plan du Carto Metro</string>
 
     <item name="act_telechargement_nb_jrs_autorise_sauvegarde" type="integer">14</item>
 
@@ -35,4 +37,5 @@
 
     <string name="act_tab_gare_api_url_navitia_1">https://api.navitia.io/v1/coverage/fr-idf/coords/</string>
     <string name="act_tab_gare_api_url_navitia_2">/physical_modes/physical_mode:RapidTransit/stop_points?distance=600</string>
+
 </resources>

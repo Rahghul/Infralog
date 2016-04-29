@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ import com.sncf.itif.R;
 /**
  * Created by Rahghul on 14/04/2016.
  */
-public class ActRatpPlan extends Activity implements ServiceCallBack {
+public class ActRatpPlan extends AppCompatActivity implements ServiceCallBack {
 
     ServicePlanIDF servicePlanIDF;
 
@@ -31,6 +32,10 @@ public class ActRatpPlan extends Activity implements ServiceCallBack {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_ratp_plan);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.act_ratp_plan_tv_title));
+        getSupportActionBar().setSubtitle(R.string.global_tv_short_title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         image_carte = (ImageView) findViewById(R.id.image_ratp_idf);
         mAttacher = new PhotoViewAttacher(image_carte);
