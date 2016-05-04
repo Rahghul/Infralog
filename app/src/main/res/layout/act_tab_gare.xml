@@ -65,7 +65,7 @@
             android:layout_alignBottom="@+id/img_localiser"
             android:layout_alignStart="@+id/tv_ma_position"
             android:layout_marginLeft="15dp"
-            android:text="NULL"
+            android:text="Non définie"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/color3"
             android:textSize="15dp" />
