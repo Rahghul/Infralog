@@ -25,8 +25,9 @@ public class ServiceDetailPlan {
     private String service;
     private int result;
 
-    public ServiceDetailPlan(ServiceCallBack callBack, Context context, String service) {
-        this.dialog = new SpotsDialog(context, R.style.Custom);
+    public ServiceDetailPlan(ServiceCallBack callBack, Context context, String service, AlertDialog mDialog) {
+        //this.dialog = new SpotsDialog(context, R.style.Custom);
+        this.dialog = mDialog;
         this.callBack = callBack;
         this.service = service;
     }
@@ -58,7 +59,7 @@ public class ServiceDetailPlan {
 
             @Override
             protected void onPostExecute(Plan plan) {
-                if (dialog.isShowing()) {
+                if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
                 try {

@@ -1,6 +1,7 @@
 package com.sncf.itif.Services.PlanViewer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.sncf.itif.R;
 import java.io.File;
 import java.io.FileInputStream;
 
+import dmax.dialog.SpotsDialog;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ActPlanViewer extends Activity implements ServiceCallBack {
@@ -27,6 +29,7 @@ public class ActPlanViewer extends Activity implements ServiceCallBack {
     ImageView imgPlan;
     PhotoViewAttacher mAttacher;
 
+    AlertDialog dialog;
     /*variable qui assure l'affichage AlertDialog Box internet settings une fois.
     Problème rencontré : au démarrage la méthode onCreate and onResume exécuté une après l'autre
     donc l'alert dialog box internet affiche deux fois.*/
@@ -43,6 +46,8 @@ public class ActPlanViewer extends Activity implements ServiceCallBack {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
 //                WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.act_plan_viewer);
+
+        dialog = new SpotsDialog(this, R.style.Custom);
 
         imgPlan = (ImageView) findViewById(R.id.image_small);
 
@@ -109,6 +114,15 @@ public class ActPlanViewer extends Activity implements ServiceCallBack {
         super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if ((dialog != null) && dialog.isShowing())
+            dialog.dismiss();
+        dialog = null;
+    }
+
     public Bitmap StringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -137,7 +151,7 @@ public class ActPlanViewer extends Activity implements ServiceCallBack {
     }
 
     public void callServicePlanFromSecteur(Long planID) {
-        serviceDetailPlan = new ServiceDetailPlan(this, this, "getPlanById");
+        serviceDetailPlan = new ServiceDetailPlan(this, this, "getPlanById", dialog);
         String url_carte_by_id = getString(R.string.global_server_endpoint) + getString(R.string.global_server_url_plan_detail_by_id);
         serviceDetailPlan.enquiry(url_carte_by_id + planID);
     }
