@@ -25,10 +25,10 @@ public class ServicePlanIDF {
     private String service;
     private int result;
 
-    public ServicePlanIDF(ServiceCallBack callBack, Context context, String service) {
+    public ServicePlanIDF(ServiceCallBack callBack, Context context, String service, AlertDialog mDialog) {
         this.callBack = callBack;
         this.service = service;
-        this.dialog = new SpotsDialog(context, R.style.Custom);
+        this.dialog = mDialog;
     }
 
     public void enquiry(final String endpoint){
@@ -58,7 +58,7 @@ public class ServicePlanIDF {
 
             @Override
             protected void onPostExecute(DiversImage plan) {
-                if (dialog.isShowing()) {
+                if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
                 try {

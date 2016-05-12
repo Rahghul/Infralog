@@ -1,9 +1,11 @@
 package com.sncf.itif.Services.PlanIDF.Telechargement;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -125,7 +127,17 @@ public class ActTelechargement extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_delete) {
-            Toast.makeText(mContext, "Appuyez longuement sur le plan pour supprimer définitivement.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "Appuyez longuement sur le plan pour supprimer définitivement.", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+            alertDialog.setTitle("Suppression");
+            alertDialog.setMessage("Appuyez longuement sur le plan pour supprimer définitivement.");
+            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialog.show();
+
             return true;
         }
         switch (item.getItemId()) {

@@ -1,6 +1,7 @@
 package com.sncf.itif.Services.PlanIDF;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.sncf.itif.Services.ServiceCallBack;
 
+import dmax.dialog.SpotsDialog;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import com.sncf.itif.R;
 
@@ -26,6 +28,7 @@ public class ActRatpPlan extends AppCompatActivity implements ServiceCallBack {
 
     DiversImage planIDFReceived;
 
+    AlertDialog dialog;
 
 
     @Override
@@ -37,14 +40,25 @@ public class ActRatpPlan extends AppCompatActivity implements ServiceCallBack {
         getSupportActionBar().setSubtitle(R.string.global_tv_short_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        dialog = new SpotsDialog(this, R.style.Custom);
+
         image_carte = (ImageView) findViewById(R.id.image_ratp_idf);
         mAttacher = new PhotoViewAttacher(image_carte);
 
         callServicePlanIDF();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if ((dialog != null) && dialog.isShowing())
+            dialog.dismiss();
+        dialog = null;
+    }
+
     public void callServicePlanIDF() {
-        servicePlanIDF = new ServicePlanIDF(this, this, "getPlanIDF");
+        servicePlanIDF = new ServicePlanIDF(this, this, "getPlanIDF", dialog);
         servicePlanIDF.enquiry(getResources().getString(R.string.global_server_endpoint)
                 + getResources().getString(R.string.global_server_url_divers_img_IDF));
     }

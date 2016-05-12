@@ -2,6 +2,7 @@ package com.sncf.itif.Services.Plan;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -90,7 +91,19 @@ public class ActPlan extends AppCompatActivity implements ServiceCallBack {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_input) {
-            Toast.makeText(mContext, "Appuyez longuement sur le plan pour enregistrer. Il sera accessible pour une période de 2 semaines uniquement dans l'interface 'PLAN IDF'->'Accès au plan enregistré'. Au-delà, il faudra renouveler l'action.", Toast.LENGTH_LONG).show();
+
+//            Toast.makeText(mContext, "Appuyez longuement sur le plan pour enregistrer. Il sera accessible pour une période de 2 semaines uniquement dans l'interface 'PLAN IDF'->'Accès au plan enregistré'. Au-delà, il faudra renouveler l'action.", Toast.LENGTH_LONG).show();
+
+            android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext);
+            alertDialog.setTitle("Téléchargement");
+            alertDialog.setMessage("Appuyez longuement sur le plan pour enregistrer dans l'interface 'PLAN IDF'->'Accès au plan enregistré'. Au-delà de 2 semaines, il faudra renouveler l'action.");
+            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialog.show();
+
             return true;
         }
         switch (item.getItemId()) {
