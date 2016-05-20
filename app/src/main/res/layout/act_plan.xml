@@ -23,7 +23,7 @@
         android:layout_marginBottom="5dp"
         android:background="@android:color/darker_gray" />
 
-    <com.sncf.itif.Services.PlanIDF.Telechargement.TelechargementCustomGridView
+    <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"

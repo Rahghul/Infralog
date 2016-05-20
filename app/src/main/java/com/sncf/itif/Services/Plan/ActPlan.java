@@ -67,6 +67,7 @@ public class ActPlan extends AppCompatActivity implements ServiceCallBack {
 
         gridView = (GridView) findViewById(R.id.gridView);
 
+        callServicePlanFromSecteur(secteurId);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class ActPlan extends AppCompatActivity implements ServiceCallBack {
         if (NetworkMonitor.isNetworkAvailable(this) == false) {
             NetworkMonitor.showNetworkAlert(this);
         } else {
-            callServicePlanFromSecteur(secteurId);
+            //callServicePlanFromSecteur(secteurId);
         }
 
         super.onResume();

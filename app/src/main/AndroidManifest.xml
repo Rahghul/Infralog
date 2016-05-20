@@ -42,7 +42,6 @@
             android:name=".Services.Plan.ActPlan"
             android:label="@string/act_plan_tv_title"
             android:parentActivityName=".Services.Secteur.ActSecteur"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Services.PlanViewer.ActPlanViewer"

@@ -88,7 +88,6 @@ public class ActSecteur extends AppCompatActivity implements ServiceCallBack {
                 startActivityForResult(intent, 1);
             }
         });
-
         super.onStart();
     }
 
