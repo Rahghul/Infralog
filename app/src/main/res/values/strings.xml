@@ -22,7 +22,7 @@
 
 
     <string name="global_server_endpoint">http://itif.cloudapp.net/</string>
-    <!--<string name="dns">http://10.0.3.2:8080/</string>-->
+    <!--<string name="global_server_endpoint">http://10.0.3.2:8080/</string>-->
 
     <string name="global_server_url_gare">sncf/rest/gare/</string>
     <string name="global_server_url_gare_one_query_id">sncf/rest/gare/</string>

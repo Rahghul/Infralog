@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sncf.itif.Global.Network.NetworkMonitor;
+import com.sncf.itif.Main.MainActivity;
+import com.sncf.itif.Services.Gare.ActTabGare;
 import com.sncf.itif.Services.Plan.ActPlan;
 import com.sncf.itif.Services.ServiceCallBack;
 import com.sncf.itif.R;
@@ -147,11 +149,20 @@ public class ActSecteur extends AppCompatActivity implements ServiceCallBack {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                //super.onBackPressed();
+                startActivity(new Intent(ActSecteur.this, MainActivity.class));
+                finish();
                 break;
         }
         return true;
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(ActSecteur.this, MainActivity.class));
+        finish();
 
+    }
 }
