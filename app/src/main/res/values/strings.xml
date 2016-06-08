@@ -18,7 +18,7 @@
     <string name="act_plan_menu_action_input">Ajouter</string>
     <string name="act_telechargement_menu_action_delete">Supprimer</string>
 
-    <string name="act_about_us_tv_context">L\'Infralog Travaux Ile de France dite ITIF, est un établissement logistique de la branche infrastructure de SNCF. \n \nParticularités Locales - Agent Sécurité dite PLAS, est une application mobile conçue par l\'ITIF et qui offre principalement la possibilité aux agents de sécurité de consulter à distance les particularités locales des gares SNCF.</string>
+    <string name="act_about_us_tv_context">Spécialisé en travaux sur site exploité en zone dense, l\'Infralog Travaux Ile de France réalise des projets d\'investissement de modernisation et de développement. \n \nL\'application PLAS pour « Particularités Locales Agent Sécurité » a été développée par l\'ITIF en 2016 dans l\'objectif de répondre à la problématique qui lui est propre : intervenir sur l\'ensemble du périmètre de l\'Ile de France et des établissements territoriaux qui y sont liés. \n\nCette application permet de consulter les particularités locales nécessaires à l\'exercice de la mission de sécurité Agent Sécurité du Personnel. Elle nécessite un accès réseau data, mais aussi la possibilité de télécharger les données en local pour une consultation hors couverture du réseau.</string>
 
 
     <string name="global_server_endpoint">http://itif.cloudapp.net/</string>
